@@ -26,18 +26,16 @@ Cette partie détaille :
 
 Dans le cadre du projet CBallot, deux rôles principaux sont définis pour les utilisateurs :
 - Stagiaire votants
-    - Participants aux sessions de formation.
-    - Accèdent à l'interface de vote via un code unique envoyé par email.
-    - Garantissent l'anonymat et la sécurité du vote.
-    - Ne peuvent voter qu'une seule fois.
+    - participants aux sessions de formation ;
+    - accèdent à l'interface de vote via un code unique ;
+    - ne peuvent voter qu'une seule fois.
 
-- Organisateur de scrutin
-    - responsables de l'organisation et de la gestion des scrutins.
-    - fonctionnalités :
-        - créer des sessions de formation.
-        - ajouter et supprimer des stagiaires.
-        - planifier des séances de vote.
-        - gérer les binômes de candidats.
+- Organisateur de scrutin (formateur / responsable de formation / assistant de formation)
+    - responsables de l'organisation et de la gestion des scrutins ;
+    - créer des sessions de formation ;
+    - ajouter et supprimer des stagiaires ;
+    - planifier des séances de vote ;
+    - gérer les binômes de candidats.
 
 ### Module "organisation de scrutin"
 
