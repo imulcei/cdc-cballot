@@ -2,16 +2,16 @@
 
 ## Descriptif du projet
 
-Le vote des délégués pour la formation approche et cette année l'Afpa souhaite mettre en place le vote numérique.
+Le vote des délégués pour la formation approche et cette année l'Afpa souhaite mettre en place le vote numérique pour simplifier le processus de vote.
 
 L'objectif est de développer une application web comportant deux modules :
 
 - une module application présentant une interface d'administration permettant à une personne habilitée de créer des sessions de formation, y associer des stagiaires et organiser une séance de vote ;
 - un module permettant aux stagiaires d'une formation de choisir un binôme de délégué.e.s qui se présentent, ceci pour une séance de vote pré-organisée.
 
-Le vote devra être anonyme (rien de l'identité des votants ne devra être stocké en BDD, il n'y aura que leurs choix).
+Le vote devra être anonyme (rien de l'identité des votants ne devra être stocké en BDD sur le long terme, il n'y aura que leurs choix).
 
-Le nom du projet est libre, il vous est proposé "Cballot" pour "Class Ballot".
+Le nom du projet est libre, il vous est proposé "Cballot" pour "Class Ballot" mais toute proposition peut être acceptée.
 
 ---
 
@@ -24,8 +24,8 @@ Cette partie détaille :
 
 ### Rôles des utilisateurs
 
-Dans le cadre du projet CBallot, deux rôles principaux sont définis pour les utilisateurs :
-- Stagiaire votants
+Dans le cadre du projet Cballot, deux rôles principaux sont définis pour les utilisateurs :
+- Stagiaires votants
     - participants aux sessions de formation ;
     - accèdent à l'interface de vote via un code unique ;
     - ne peuvent voter qu'une seule fois.
@@ -51,41 +51,74 @@ L'administrateur doit pouvoir créer une nouvelle session de formation en spéci
 >
 > Par exemple, la formation CDA Brest se déroulant du 24/04/2026 au 13/02/2027 est une session de la formation **CDA**.
 
+L'utilisateur administrateur devra donc pouvoir créer des formations (en plus des sessions qui leur sont associées).
+
+Pour chaque session de formation créée, l'administrateur pourra ajouter des stagiaires votants. Seules les adresses email sont **stockée temporairement** dans la base de données afin de permettre aux votants de déposer leur voix.
+
 #### Organisation d'un scrutin
 
 **Planification d'un scrutin**
 
-L'administrateur doit pouvoir planifier une séance de vote pour une session de formation en spécifiant :
+L'administrateur doit pouvoir planifier une séance de vote pour **une session de formation** en spécifiant :
 - date et heure du vote
 - liste des binômes candidats
-
-Un QR code devra être généré par l'application. Ce QR code permettra au votant d'arriver sur la page "isoloir" (le fonctionnement du vote sera détaillé dans la partie "Module isoloir").
-
-Le QR code doit pouvoir être généré uniquement à l'heure du début du scrutin et ne plus être accessible une fois le scrutin terminé.
 
 **Gestion des binômes candidats**
 L'administrateur doit pouvoir ajouter, modifier et supprimer des binômes de candidats pour un scrutin.
 
-Un binôme de candadidats est composé d'un **délégué principal** et d'un **suppléant**.
+Un binôme de candidats est composé d'un **délégué principal** et d'un **suppléant**.
 
 ### Module "isoloir"
 
-Cette partie détail le fonctionnement du module de vote dédié aux stagiaires.
+Cette partie détaille le fonctionnement du module de vote dédié aux stagiaires.
 
 **Interface de vote**
-Les stagiaires doivent pouvoir accéder à une interface de vote où ils peuvent voir la liste des binômes candidats et voter pour un binôme.
+Un email de demande de participation au vote est envoyée à chaque votant **1 heure** avant le début du vote.
 
-Afin d'accéder à cette interface il leut faudra rentrer un code unique de vote.
+Cet email devra notamment contenir la liste des binômes qui se présentent.
+
+Les votants pourronta accéder à une interface de vote où ils pourront voter pour un binôme.
+
+Il devra être possible d'acéder à cette interface de vote via une URL envoyée par email.
 
 **Code unique et anonymat du vote**
-Le vote doit être anonyme, seul le choix du votant doit être stocké en base de données.
+Le vote doit être anonyme, seul le choix du votant doit rester stocké en base de données.
 
-Afin de comptabiliser les votes un numéro unique (tel qu'un [UUID](https://www.postgresql.org/docs/current/datatype-uuid.html)) pourra être généré pour chaque stagiaire votant.
-
-Ce code pourra être envoyé par email aux participant afin qu'il puisse débuter son vote.
+Afin de comptabiliser les votes un numéro unique tel qu'un [UUID](https://www.postgresql.org/docs/current/datatype-uuid.html) pourra être généré pour chaque stagiaire votant.
 
 > [!CAUTION]
-> Pour des raisons d'anonymat le numéro unique des votants ne devra pas rester en base de données et devra être supprimé une fois le vote effectué. 
+> Pour des raisons d'anonymat le numéro unique des votants ne devra pas rester en base de données et devra être supprimé une fois le vote effectué.
+>
+> Les adresses email des votants doivent également être supprimées de la base de données.
 >
 > Il est seulement utiliser pour permettre à un stagiaire de voter et assure qu'une personne ne **vote pas plusieurs fois**.
 
+**Confirmation de vote**
+Après avoir voté, les votants recevront une confirmation de leur vote par email.
+
+Cette confirmation ne contiendra aucune information permettant d'identifier le votant, conformément aux exigences d'anonymat.
+
+---
+
+## Livrables
+
+- Analyse fonctionnelle :
+    - diagramme de cas d'utilisation ;
+    - diagramme de séquence représentant le processus de vote ;
+    - wireframe des écrans à implémenter.
+- Spécifications techniques :
+    - MCD / MLD / MPD de la BDD relationnelle
+    - liste des **endpoints** à concevoir
+- Code source / scripts :
+    - script de création de base de données
+    - fichiers de configuration Docker permettant de déployer une base de données.
+
+> [!NOTE]
+> Dans un premier temps il ne vous est pas demandé de développer l'interface graphique. 
+
+> [!CAUTION]
+> Pour des raisons de sécurité il faudra veiller à ce que la base de données suivent les recommandations de sécurité.
+>
+> Dans cette perspective, il vous faudra mettre en place un ensemble d'éléments de base de données tels que :
+> - un utilisateur au droits restreints ;
+> - des triggers supprimant les données des votants une fois le vote effectué.
