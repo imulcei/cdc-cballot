@@ -132,9 +132,9 @@ Cette confirmation ne contiendra aucune information permettant d'identifier le v
 Pour apprendre à concevoir des diagrammes de séquence vous pourrez consulter l'excellent cours de Rémy Manu disponible [ici](http://remy-manu.no￾ip.biz/UML/Cours/coursUML5.pdf).
 
 Il vous est conseiller de lire principalement les parties suivantes :
-- 1) Rôle du diagramme de séquence
-- 2) Représentation du diagramme de séquence
-- 6) Exemple de diagramme de séquence : distributeur automatique de billets
+- 1. Rôle du diagramme de séquence
+- 2. Représentation du diagramme de séquence
+- 6. Exemple de diagramme de séquence : distributeur automatique de billets
 
 Il vous sera possible de construire le diagramme de séquence demandé avec les connaissances acquises grâce au cours.
 
