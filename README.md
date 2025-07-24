@@ -11,7 +11,7 @@ L'objectif est de développer une application web comportant deux modules :
 
 Le vote devra être anonyme (rien de l'identité des votants ne devra être stocké en BDD sur le long terme, il n'y aura que leurs choix).
 
-Le nom du projet est libre, il vous est proposé "Cballot" pour "Class Ballot" mais toute proposition peut être acceptée.
+Le nom du projet est libre, il vous est proposé "Cballot" pour "Class ballot" mais toute proposition peut être acceptée.
 
 ---
 
@@ -60,8 +60,8 @@ Pour chaque session de formation créée, l'administrateur pourra ajouter des st
 **Planification d'un scrutin**
 
 L'administrateur doit pouvoir planifier une séance de vote pour **une session de formation** en spécifiant :
-- date et heure du vote
-- liste des binômes candidats
+- date et heure du vote ;
+- liste des binômes candidats.
 
 **Gestion des binômes candidats**
 L'administrateur doit pouvoir ajouter, modifier et supprimer des binômes de candidats pour un scrutin.
@@ -105,12 +105,12 @@ Cette confirmation ne contiendra aucune information permettant d'identifier le v
 - Analyse fonctionnelle :
     - diagramme de cas d'utilisation ;
     - diagramme de séquence représentant le processus de vote ;
-    - wireframe des écrans à implémenter.
+    - wireframe des écrans à implémenter (il ne vous est pas demandé de concevoir les maquettes haute-fidélité).
 - Spécifications techniques :
-    - MCD / MLD / MPD de la BDD relationnelle
-    - liste des **endpoints** à concevoir
+    - MCD / MLD / MPD de la BDD relationnelle ;
+    - liste des **endpoints** de la Web API à concevoir.
 - Code source / scripts :
-    - script de création de base de données
+    - script de création de base de données ;
     - fichiers de configuration Docker permettant de déployer une base de données.
 
 > [!NOTE]
@@ -121,4 +121,27 @@ Cette confirmation ne contiendra aucune information permettant d'identifier le v
 >
 > Dans cette perspective, il vous faudra mettre en place un ensemble d'éléments de base de données tels que :
 > - un utilisateur au droits restreints ;
-> - des triggers supprimant les données des votants une fois le vote effectué.
+> - des triggers ou des procédures stockées.
+
+---
+
+# Conseils de développement
+
+## Information sur le diagramme de séquence
+
+Pour apprendre à concevoir des diagrammes de séquence vous pourrez consulter l'excellent cours de Rémy Manu disponible [ici](http://remy-manu.no￾ip.biz/UML/Cours/coursUML5.pdf).
+
+Il vous est conseiller de lire principalement les parties suivantes :
+- 1) Rôle du diagramme de séquence
+- 2) Représentation du diagramme de séquence
+- 6) Exemple de diagramme de séquence : distributeur automatique de billets
+
+Il vous sera possible de construire le diagramme de séquence demandé avec les connaissances acquises grâce au cours.
+
+## Envoi d'email
+
+Vous pourrez mettre en place [String Email](https://www.baeldung.com/spring-email) afin d'envoyer des emails en utilisant Spring Boot.
+
+Pour se faire il vous faudra utiliser un [serveur SMTP](https://fr.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol). Le plus facile est d'utiliser un service existant, par exemple :
+- [Google](https://medium.com/tuanhdotnet/tips-for-sending-mail-from-a-spring-boot-application-using-google-as-mail-server-fcf5ab042594)
+- [Proton](https://proton.me/support/smtp-submission)
