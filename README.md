@@ -144,4 +144,4 @@ Vous pourrez mettre en place [Spring Email](https://www.baeldung.com/spring-emai
 
 Pour se faire il vous faudra utiliser un [serveur SMTP](https://fr.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol). Le plus facile est d'utiliser un service existant, par exemple :
 - [Google](https://medium.com/tuanhdotnet/tips-for-sending-mail-from-a-spring-boot-application-using-google-as-mail-server-fcf5ab042594)
-- [Proton](https://proton.me/support/smtp-submission)
+- [MailSender](https://www.mailersend.com/n)
