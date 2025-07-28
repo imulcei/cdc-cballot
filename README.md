@@ -140,7 +140,7 @@ Il vous sera possible de construire le diagramme de séquence demandé avec les 
 
 ## Envoi d'email
 
-Vous pourrez mettre en place [String Email](https://www.baeldung.com/spring-email) afin d'envoyer des emails en utilisant Spring Boot.
+Vous pourrez mettre en place [Spring Email](https://www.baeldung.com/spring-email) afin d'envoyer des emails en utilisant Spring Boot.
 
 Pour se faire il vous faudra utiliser un [serveur SMTP](https://fr.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol). Le plus facile est d'utiliser un service existant, par exemple :
 - [Google](https://medium.com/tuanhdotnet/tips-for-sending-mail-from-a-spring-boot-application-using-google-as-mail-server-fcf5ab042594)
