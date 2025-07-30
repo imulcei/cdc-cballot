@@ -3,6 +3,7 @@ package afpa.fr.cballot.dto;
 import afpa.fr.cballot.entities.Teacher;
 
 public class TeacherDTO extends PersonDTO {
+    private Integer id;
     private String password;
 
     public TeacherDTO() {
@@ -13,7 +14,16 @@ public class TeacherDTO extends PersonDTO {
     }
 
     public TeacherDTO(Teacher teacher) {
+        this.id = teacher.getId();
         this.password = teacher.getPassword();
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getPassword() {

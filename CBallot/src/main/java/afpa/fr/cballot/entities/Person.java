@@ -14,26 +14,25 @@ import jakarta.persistence.InheritanceType;
 public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer id_person;
 
     @Column(name = "email")
     private String email;
-
 
     public Person() {
     }
 
     public Person(PersonDTO dto) {
-        this.id = dto.getId();
+        this.id_person = dto.getId_person();
         this.email = dto.getEmail();
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getId_person() {
+        return id_person;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setId_person(Integer id) {
+        this.id_person = id;
     }
 
     public String getEmail() {
