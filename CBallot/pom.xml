@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>afpa.fr</groupId>
-	<artifactId>CBallot</artifactId>
+	<artifactId>cballot</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>CBallot</name>
+	<name>cballot</name>
 	<description>creation of a delegate election API</description>
 	<url/>
 	<licenses>
