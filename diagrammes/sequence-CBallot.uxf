@@ -75,7 +75,7 @@
       <x>396</x>
       <y>418</y>
       <w>22</w>
-      <h>308</h>
+      <h>275</h>
     </coordinates>
     <panel_attributes/>
     <additional_attributes/>
@@ -109,7 +109,7 @@ Envoyer le mail pour voter</panel_attributes>
       <x>682</x>
       <y>484</y>
       <w>22</w>
-      <h>242</h>
+      <h>264</h>
     </coordinates>
     <panel_attributes/>
     <additional_attributes/>
@@ -213,10 +213,10 @@ Vérification des données</panel_attributes>
       <x>121</x>
       <y>286</y>
       <w>33</w>
-      <h>462</h>
+      <h>484</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;400.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;420.0</additional_attributes>
   </element>
   <element>
     <id>UMLActor</id>
@@ -247,12 +247,12 @@ Lancement de la session de vote</panel_attributes>
     <coordinates>
       <x>693</x>
       <y>352</y>
-      <w>297</w>
+      <w>308</w>
       <h>44</h>
     </coordinates>
     <panel_attributes>lt=-&gt;&gt;&gt;
 Enregistrement des mails</panel_attributes>
-    <additional_attributes>10.0;20.0;250.0;20.0</additional_attributes>
+    <additional_attributes>10.0;20.0;260.0;20.0</additional_attributes>
   </element>
   <element>
     <id>UMLGeneric</id>
@@ -260,7 +260,7 @@ Enregistrement des mails</panel_attributes>
       <x>968</x>
       <y>660</y>
       <w>22</w>
-      <h>66</h>
+      <h>88</h>
     </coordinates>
     <panel_attributes/>
     <additional_attributes/>
@@ -268,13 +268,35 @@ Enregistrement des mails</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>693</x>
-      <y>671</y>
-      <w>297</w>
+      <x>121</x>
+      <y>704</y>
+      <w>583</w>
       <h>44</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-Envoie du résultat du vote</panel_attributes>
-    <additional_attributes>10.0;20.0;250.0;20.0</additional_attributes>
+Envoi du résultat du vote</panel_attributes>
+    <additional_attributes>10.0;20.0;510.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLFrame</id>
+    <coordinates>
+      <x>341</x>
+      <y>517</y>
+      <w>374</w>
+      <h>165</h>
+    </coordinates>
+    <panel_attributes>alt</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>330</x>
+      <y>594</y>
+      <w>407</w>
+      <h>33</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>350.0;10.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>
