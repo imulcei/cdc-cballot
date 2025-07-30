@@ -8,8 +8,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "person")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Person {
     @Id

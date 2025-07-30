@@ -14,6 +14,7 @@ public class TeacherDTO extends PersonDTO {
     }
 
     public TeacherDTO(Teacher teacher) {
+        super(teacher);
         this.id = teacher.getId();
         this.password = teacher.getPassword();
     }

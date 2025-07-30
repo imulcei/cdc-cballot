@@ -6,8 +6,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "teacher")
 public class Teacher extends Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +22,7 @@ public class Teacher extends Person {
     }
 
     public Teacher(TeacherDTO dto) {
+        super(dto);
         this.id = dto.getId_person();
         this.password = dto.getPassword();
     }

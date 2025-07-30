@@ -10,6 +10,7 @@ public class AdminDTO extends PersonDTO {
     }
 
     public AdminDTO(Admin admin) {
+        super(admin);
         this.id = admin.getId();
         this.password = admin.getPassword();
     }
