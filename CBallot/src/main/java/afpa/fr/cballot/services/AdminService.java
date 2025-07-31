@@ -2,9 +2,8 @@ package afpa.fr.cballot.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
-
-import javax.swing.text.html.parser.Entity;
 
 import org.springframework.stereotype.Service;
 
@@ -12,7 +11,6 @@ import afpa.fr.cballot.dto.AdminDTO;
 import afpa.fr.cballot.entities.Admin;
 import afpa.fr.cballot.mapper.AdminMapper;
 import afpa.fr.cballot.repositories.AdminRepository;
-import afpa.fr.cballot.repositories.PersonRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -21,13 +19,11 @@ public class AdminService {
 
     private final AdminRepository adminRepository;
 
-    private final PersonRepository personRepository;
 
     private final AdminMapper mapper;
 
-    public AdminService(AdminRepository adminRepository, PersonRepository personRepository, AdminMapper mapper) {
+    public AdminService(AdminRepository adminRepository, AdminMapper mapper) {
         this.adminRepository = adminRepository;
-        this.personRepository = personRepository;
         this.mapper = mapper;
     }
 
@@ -51,7 +47,7 @@ public class AdminService {
      * 
      * Retourne un admin selon ID
      */
-    public AdminDTO getOneAdmin(Integer id) {
+    public AdminDTO getOneAdmin(UUID id) {
         return mapper.converteToDTO(adminRepository.findById(id).orElse(null));
     }
 
@@ -74,7 +70,7 @@ public class AdminService {
      * 
      * Permet la modification du "password" de l'admin
      */
-    public AdminDTO updateAdmin(Integer id, AdminDTO dto) {
+    public AdminDTO updateAdmin(UUID id, AdminDTO dto) {
         Optional<Admin> originalAdmin = adminRepository.findById(id);
 
         if (originalAdmin.isEmpty()) {
@@ -87,6 +83,8 @@ public class AdminService {
 
         Admin admin = originalAdmin.get();
         admin.setPassword(dto.getPassword());
+        admin.setLastName(dto.getLastName());
+        admin.setFirstName(dto.getFirstName());
 
         return mapper.converteToDTO(adminRepository.save(admin));
     }
@@ -96,7 +94,7 @@ public class AdminService {
      * @param id
      * @param response
      */
-    public void removeAdmin(Integer id, HttpServletResponse response) {
+    public void removeAdmin(UUID id, HttpServletResponse response) {
         if (adminRepository.existsById(id)) {
             adminRepository.deleteById(id);
             response.setStatus(HttpServletResponse.SC_NO_CONTENT);

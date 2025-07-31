@@ -1,17 +1,17 @@
 package afpa.fr.cballot.dto;
 
-import afpa.fr.cballot.entities.Formation;
+import afpa.fr.cballot.entities.Course;
 
-public class FormationDTO {
+public class CourseDTO {
     private Integer id;
     private String name;
 
-    public FormationDTO() {
+    public CourseDTO() {
     }
 
-    public FormationDTO(Formation formation) {
-        this.id = formation.getId();
-        this.name = formation.getName();
+    public CourseDTO(Course course) {
+        this.id = course.getId();
+        this.name = course.getName();
     }
 
     public Integer getId() {

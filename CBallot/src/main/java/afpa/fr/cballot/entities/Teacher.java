@@ -1,38 +1,35 @@
 package afpa.fr.cballot.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import afpa.fr.cballot.dto.TeacherDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "teacher")
 public class Teacher extends Person {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
 
     @Column(name = "password", nullable = false)
     private String password;
+
+    @ManyToMany
+    @JoinTable(name = "teacher_course",
+                    joinColumns = @JoinColumn(name = "id_teacher"),
+                    inverseJoinColumns = @JoinColumn(name = "id_course"))
+    List<Course> courses = new ArrayList<>();
 
     public Teacher() {
     }
 
     public Teacher(TeacherDTO dto) {
         super(dto);
-        this.id = dto.getId_person();
         this.password = dto.getPassword();
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getPassword() {
@@ -41,5 +38,13 @@ public class Teacher extends Person {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
     }
 }

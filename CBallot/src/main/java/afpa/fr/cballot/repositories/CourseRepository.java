@@ -3,9 +3,9 @@ package afpa.fr.cballot.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import afpa.fr.cballot.entities.Formation;
+import afpa.fr.cballot.entities.Course;
 
 @Repository
-public interface FormationRepository extends JpaRepository <Formation, Integer> {
+public interface CourseRepository extends JpaRepository <Course, Integer> {
     
 }

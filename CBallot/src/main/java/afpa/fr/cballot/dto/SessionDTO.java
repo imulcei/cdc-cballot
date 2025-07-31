@@ -4,14 +4,14 @@ import afpa.fr.cballot.entities.Session;
 
 public class SessionDTO {
     private Integer id;
-    private String email;
+    private String name;
 
     public SessionDTO() {
     }
 
     public SessionDTO(Session session) {
         this.id = session.getId();
-        this.email = session.getEmail();
+        this.name = session.getName();
     }
 
     public Integer getId() {
@@ -22,11 +22,11 @@ public class SessionDTO {
         this.id = id;
     }
 
-    public String getEmail() {
-        return email;
+    public String getName() {
+        return name;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setName(String email) {
+        this.name = email;
     }
 }

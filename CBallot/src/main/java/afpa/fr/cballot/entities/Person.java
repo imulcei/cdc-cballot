@@ -1,5 +1,7 @@
 package afpa.fr.cballot.entities;
 
+import java.util.UUID;
+
 import afpa.fr.cballot.dto.PersonDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,7 +18,7 @@ import jakarta.persistence.Table;
 public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_person;
+    private UUID id;
 
     @Column(name = "email")
     private String email;
@@ -31,16 +33,18 @@ public class Person {
     }
 
     public Person(PersonDTO dto) {
-        this.id_person = dto.getId_person();
+        this.id = dto.getId();
         this.email = dto.getEmail();
+        this.lastName = dto.getLastName();
+        this.firstName = dto.getFirstName();
     }
 
-    public Integer getId_person() {
-        return id_person;
+    public UUID getId() {
+        return id;
     }
 
-    public void setId_person(Integer id) {
-        this.id_person = id;
+    public void setId_person(UUID id) {
+        this.id = id;
     }
 
     public String getEmail() {
@@ -49,5 +53,21 @@ public class Person {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 }
