@@ -1,80 +1,88 @@
 CREATE TABLE person(
-   id_person SERIAL PRIMARY KEY,
+   id SERIAL,
    email VARCHAR(50)  NOT NULL,
+   lastName VARCHAR(250)  NOT NULL,
+   firstName VARCHAR(200) ,
+   PRIMARY KEY(id),
    UNIQUE(email)
 );
 
-CREATE TABLE admin(
-   id SERIAL PRIMARY KEY,
+CREATE TABLE "admin"(
+   id SERIAL,
    "password" VARCHAR(50)  NOT NULL,
    id_person INTEGER NOT NULL,
+   PRIMARY KEY(id),
    UNIQUE(id_person),
-   FOREIGN KEY(id_person) REFERENCES person(id_person)
+   FOREIGN KEY(id_person) REFERENCES person(id)
 );
 
 CREATE TABLE teacher(
-   id SERIAL PRIMARY KEY,
+   id SERIAL,
    "password" VARCHAR(50)  NOT NULL,
    id_person INTEGER NOT NULL,
+   PRIMARY KEY(id),
    UNIQUE(id_person),
-   FOREIGN KEY(id_person) REFERENCES person(id_person)
+   FOREIGN KEY(id_person) REFERENCES person(id)
 );
 
-CREATE TABLE formation(
-   id_class SERIAL PRIMARY KEY,
-   "name" VARCHAR(50)  NOT NULL
+CREATE TABLE course(
+   id SERIAL,
+   libelle VARCHAR(50)  NOT NULL,
+   PRIMARY KEY(id)
 );
 
 CREATE TABLE session(
-   id SERIAL PRIMARY KEY,
-   "name" VARCHAR(50)  NOT NULL,
-   id_class INTEGER NOT NULL,
-   FOREIGN KEY(id_class) REFERENCES formation(id_class)
+   id SERIAL,
+   name VARCHAR(50)  NOT NULL,
+   id_course INTEGER NOT NULL,
+   PRIMARY KEY(id),
+   FOREIGN KEY(id_course) REFERENCES course(id)
 );
 
 CREATE TABLE election(
-   id_election SERIAL PRIMARY KEY,
+   id SERIAL,
    "start_date" TIMESTAMP NOT NULL,
    end_date TIMESTAMP NOT NULL,
    id_session INTEGER NOT NULL,
+   PRIMARY KEY(id),
    UNIQUE(id_session),
    FOREIGN KEY(id_session) REFERENCES session(id)
 );
 
 CREATE TABLE pair(
-   id_binome INTEGER PRIMARY KEY,
-   full_name VARCHAR(50)  NOT NULL,
-   pair_number INTEGER NOT NULL,
+   id INTEGER,
    "counter" SERIAL,
    id_election INTEGER NOT NULL,
-   FOREIGN KEY(id_election) REFERENCES election(id_election)
+   PRIMARY KEY(id),
+   FOREIGN KEY(id_election) REFERENCES election(id)
 );
 
-CREATE TABLE vote(
-   id_vote INTEGER PRIMARY KEY,
+CREATE TABLE voter(
+   id UUID,
    vote_cast BOOLEAN,
-   id_unique UUID NOT NULL,
+   email VARCHAR(250)  NOT NULL,
    id_election INTEGER NOT NULL,
-   FOREIGN KEY(id_election) REFERENCES election(id_election)
+   PRIMARY KEY(id),
+   UNIQUE(email),
+   FOREIGN KEY(id_election) REFERENCES election(id)
 );
 
 CREATE TABLE student(
-   id_student SERIAL PRIMARY KEY,
-   id_vote INTEGER,
-   id_binome INTEGER,
+   id SERIAL,
+   id_pair INTEGER,
    id_session INTEGER NOT NULL,
    id_person INTEGER NOT NULL,
+   PRIMARY KEY(id),
    UNIQUE(id_person),
-   FOREIGN KEY(id_vote) REFERENCES vote(id_vote),
-   FOREIGN KEY(id_binome) REFERENCES pair(id_binome),
+   FOREIGN KEY(id_pair) REFERENCES pair(id),
    FOREIGN KEY(id_session) REFERENCES session(id),
-   FOREIGN KEY(id_person) REFERENCES person(id_person)
+   FOREIGN KEY(id_person) REFERENCES person(id)
 );
 
-CREATE TABLE teacher_formation(
+CREATE TABLE teacher_course(
    id_teacher INTEGER,
-   id_formation INTEGER,
-   PRIMARY KEY(id_teacher, id_formation),
+   id_course INTEGER,
+   PRIMARY KEY(id_teacher, id_course),
    FOREIGN KEY(id_teacher) REFERENCES teacher(id),
-   FOREIGN KEY(id_formation) REFERENCES formation(id_class)
+   FOREIGN KEY(id_course) REFERENCES course(id)
 );
