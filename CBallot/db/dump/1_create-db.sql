@@ -1,8 +1,8 @@
 CREATE TABLE person(
    id UUID,
    email VARCHAR(50)  NOT NULL,
-   lastName VARCHAR(250)  NOT NULL,
-   firstName VARCHAR(200) ,
+   lastname VARCHAR(250)  NOT NULL,
+   firstname VARCHAR(200) ,
    PRIMARY KEY(id),
    UNIQUE(email)
 );
