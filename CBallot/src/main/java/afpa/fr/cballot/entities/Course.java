@@ -18,7 +18,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "formation")
+@Table(name = "course")
 public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,15 +28,12 @@ public class Course {
     private String name;
 
     @ManyToMany
-    @JoinTable(name = "teacher_course",
-                    joinColumns = @JoinColumn(name = "id_course"),
-                    inverseJoinColumns = @JoinColumn(name = "id_Teacher"))
+    @JoinTable(name = "teacher_course", joinColumns = @JoinColumn(name = "id_course"), inverseJoinColumns = @JoinColumn(name = "id_Teacher"))
     private List<Teacher> teachers = new ArrayList<>();
 
     @JsonIgnore
     @OneToMany(targetEntity = Session.class, mappedBy = "session")
     private List<Session> sessions;
-
 
     public Course(CourseDTO dto) {
         this.id = dto.getId();
