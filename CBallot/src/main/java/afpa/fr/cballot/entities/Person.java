@@ -8,25 +8,25 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
-import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "person")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Person {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(name = "email")
     private String email;
 
-    @Column(name = "lastName")
+    @Column(name = "lastname")
     private String lastName;
 
-    @Column(name = "firstName")
+    @Column(name = "firstname")
     private String firstName;
 
     public Person() {
@@ -43,7 +43,7 @@ public class Person {
         return id;
     }
 
-    public void setId_person(UUID id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -53,6 +53,22 @@ public class Person {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getLastname() {
+        return lastName;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastName = lastname;
+    }
+
+    public String getFirstname() {
+        return firstName;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstName = firstname;
     }
 
     public String getLastName() {
