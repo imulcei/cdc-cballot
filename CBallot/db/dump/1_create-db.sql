@@ -1,5 +1,5 @@
 CREATE TABLE person(
-   id SERIAL,
+   id UUID,
    email VARCHAR(50)  NOT NULL,
    lastName VARCHAR(250)  NOT NULL,
    firstName VARCHAR(200) ,
@@ -8,8 +8,8 @@ CREATE TABLE person(
 );
 
 CREATE TABLE "admin"(
-   id SERIAL,
-   "password" VARCHAR(50)  NOT NULL,
+   id UUID,
+   "password" VARCHAR(100)  NOT NULL,
    id_person INTEGER NOT NULL,
    PRIMARY KEY(id),
    UNIQUE(id_person),
@@ -17,8 +17,8 @@ CREATE TABLE "admin"(
 );
 
 CREATE TABLE teacher(
-   id SERIAL,
-   "password" VARCHAR(50)  NOT NULL,
+   id UUID,
+   "password" VARCHAR(100)  NOT NULL,
    id_person INTEGER NOT NULL,
    PRIMARY KEY(id),
    UNIQUE(id_person),
