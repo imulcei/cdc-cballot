@@ -21,6 +21,12 @@ public class Person {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "lastName")
+    private String lastName;
+
+    @Column(name = "firstName")
+    private String firstName;
+
     public Person() {
     }
 
