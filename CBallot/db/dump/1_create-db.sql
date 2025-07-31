@@ -10,7 +10,7 @@ CREATE TABLE person(
 CREATE TABLE "admin"(
    id UUID,
    "password" VARCHAR(100)  NOT NULL,
-   id_person INTEGER NOT NULL,
+   id_person UUID NOT NULL,
    PRIMARY KEY(id),
    UNIQUE(id_person),
    FOREIGN KEY(id_person) REFERENCES person(id)
@@ -19,7 +19,7 @@ CREATE TABLE "admin"(
 CREATE TABLE teacher(
    id UUID,
    "password" VARCHAR(100)  NOT NULL,
-   id_person INTEGER NOT NULL,
+   id_person UUID NOT NULL,
    PRIMARY KEY(id),
    UNIQUE(id_person),
    FOREIGN KEY(id_person) REFERENCES person(id)
