@@ -9,7 +9,7 @@ CREATE TABLE person(
 
 CREATE TABLE "admin"(
    id SERIAL,
-   "password" VARCHAR(50)  NOT NULL,
+   "password" VARCHAR(100)  NOT NULL,
    id_person INTEGER NOT NULL,
    PRIMARY KEY(id),
    UNIQUE(id_person),
@@ -18,7 +18,7 @@ CREATE TABLE "admin"(
 
 CREATE TABLE teacher(
    id SERIAL,
-   "password" VARCHAR(50)  NOT NULL,
+   "password" VARCHAR(100)  NOT NULL,
    id_person INTEGER NOT NULL,
    PRIMARY KEY(id),
    UNIQUE(id_person),

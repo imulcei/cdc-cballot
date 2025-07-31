@@ -1,15 +1,17 @@
 package afpa.fr.cballot.entities;
 
-import java.util.UUID;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import afpa.fr.cballot.dto.StudentDTO;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
 @Entity
-public class Student {
-    @Column(name = "id_unique")
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+@Table(name = "student")
+public class Student extends Person {
+
+    public Student() {
+    }
+
+    public Student(StudentDTO dto) {
+        super(dto);
+    }
 }
