@@ -11,7 +11,6 @@ import afpa.fr.cballot.dtos.CourseDTO;
 import afpa.fr.cballot.entities.Course;
 import afpa.fr.cballot.entities.Teacher;
 import afpa.fr.cballot.mappers.CourseMapper;
-import afpa.fr.cballot.mappers.TeacherMapper;
 import afpa.fr.cballot.repositories.CourseRepository;
 import afpa.fr.cballot.repositories.TeacherRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -24,13 +23,11 @@ public class CourseService {
     private final TeacherRepository teacherRepository;
 
     private final CourseMapper mapper;
-    private final TeacherMapper teacherMapper;
 
-    public CourseService(CourseRepository repository, TeacherRepository teacherRepository, CourseMapper mapper, TeacherMapper teacherMapper) {
+    public CourseService(CourseRepository repository, TeacherRepository teacherRepository, CourseMapper mapper) {
         this.repository = repository;
         this.teacherRepository = teacherRepository;
         this.mapper = mapper;
-        this.teacherMapper = teacherMapper;
     }
 
     /**
