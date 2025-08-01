@@ -1,6 +1,6 @@
-package afpa.fr.cballot.mapper;
+package afpa.fr.cballot.mappers;
 
-import afpa.fr.cballot.dto.TeacherDTO;
+import afpa.fr.cballot.dtos.TeacherDTO;
 import afpa.fr.cballot.entities.Teacher;
 
 public class TeacherMapper {

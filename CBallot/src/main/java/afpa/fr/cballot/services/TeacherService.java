@@ -7,9 +7,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import afpa.fr.cballot.dto.TeacherDTO;
+import afpa.fr.cballot.dtos.TeacherDTO;
 import afpa.fr.cballot.entities.Teacher;
-import afpa.fr.cballot.mapper.TeacherMapper;
+import afpa.fr.cballot.mappers.TeacherMapper;
 import afpa.fr.cballot.repositories.TeacherRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletResponse;

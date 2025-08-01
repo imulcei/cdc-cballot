@@ -2,7 +2,7 @@ package afpa.fr.cballot.services;
 
 import org.springframework.stereotype.Service;
 
-import afpa.fr.cballot.mapper.PersonMapper;
+import afpa.fr.cballot.mappers.PersonMapper;
 import afpa.fr.cballot.repositories.PersonRepository;
 
 @Service

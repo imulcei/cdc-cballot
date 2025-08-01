@@ -1,4 +1,4 @@
-package afpa.fr.cballot.dto;
+package afpa.fr.cballot.dtos;
 
 import afpa.fr.cballot.entities.Course;
 
