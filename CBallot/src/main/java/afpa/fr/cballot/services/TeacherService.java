@@ -50,6 +50,13 @@ public class TeacherService {
         return mapper.converteToDTO(teacherRepository.findById(id).orElse(null));
     }
 
+    public List<TeacherDTO> getTeachersForOneCourse(Integer id) {
+        return teacherRepository.findAllByCourseId(id)
+                                .stream()
+                                .map(teacher -> new TeacherDTO(teacher))
+                                .collect(Collectors.toList());
+    }
+
     /**
      * CreateTeacher
      * @param dto
