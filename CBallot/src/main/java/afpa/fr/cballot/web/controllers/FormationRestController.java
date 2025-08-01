@@ -81,6 +81,14 @@ public class FormationRestController {
         return new ResponseEntity<>(teacherService.createTeacher(dto), HttpStatus.CREATED);
     }
 
+    /**
+     * AddTeacherToCourse
+     * @param courseId
+     * @param teacherId
+     * @return
+     * 
+     * Ajoute un formateur à une formation
+     */
     @PostMapping("/{courseId}/teachers/{teacherId}")
     public ResponseEntity<?> addTeacherToCourse(@PathVariable Integer courseId, @PathVariable UUID teacherId) {
         try {
@@ -91,6 +99,14 @@ public class FormationRestController {
         }
     }
 
+    /**
+     * RemoveTeacherToCourse
+     * @param courseId
+     * @param teacherId
+     * @return
+     * 
+     * Retire un formateur d'une formation
+     */
     @DeleteMapping("/{courseId}/teachers/{teacherId}")
     public ResponseEntity<?> removeTeacherToCourse(@PathVariable Integer courseId, @PathVariable UUID teacherId) {
         try {
