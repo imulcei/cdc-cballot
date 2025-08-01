@@ -76,18 +76,35 @@ public class FormationRestController {
      * @return
      *         Créé un formateur
      */
-    @PostMapping("/{id}/teachers")
+    @PostMapping("/teachers")
     public ResponseEntity<?> createOneTeacher(@RequestBody TeacherDTO dto) {
         return new ResponseEntity<>(teacherService.createTeacher(dto), HttpStatus.CREATED);
     }
 
     /**
+     * CreateTeacherAndAddToCourse
+     * 
+     * @param id
+     * @param teacher
+     * @return
+     * 
+     *         Créé un formateur et le lie à une formation
+     */
+    @PostMapping("/{id}/teachers")
+    public ResponseEntity<?> createTeacherAndAddToCourse(@PathVariable Integer id, @RequestBody TeacherDTO teacher) {
+        TeacherDTO created = teacherService.createTeacher(teacher);
+        courseService.addTeacherToCourse(id, created.getId());
+        return new ResponseEntity<>(created, HttpStatus.CREATED);
+    }
+
+    /**
      * AddTeacherToCourse
+     * 
      * @param courseId
      * @param teacherId
      * @return
      * 
-     * Ajoute un formateur à une formation
+     *         Ajoute un formateur à une formation
      */
     @PostMapping("/{courseId}/teachers/{teacherId}")
     public ResponseEntity<?> addTeacherToCourse(@PathVariable Integer courseId, @PathVariable UUID teacherId) {
@@ -101,11 +118,12 @@ public class FormationRestController {
 
     /**
      * RemoveTeacherToCourse
+     * 
      * @param courseId
      * @param teacherId
      * @return
      * 
-     * Retire un formateur d'une formation
+     *         Retire un formateur d'une formation
      */
     @DeleteMapping("/{courseId}/teachers/{teacherId}")
     public ResponseEntity<?> removeTeacherToCourse(@PathVariable Integer courseId, @PathVariable UUID teacherId) {
@@ -117,58 +135,57 @@ public class FormationRestController {
         }
     }
 
-
-    // ! Méthode inutile (mais au cas ou) 
+    // ! Méthode inutile (mais au cas ou)
     // /**
-    //  * GetAllCourses
-    //  * 
-    //  * @return
-    //  * 
-    //  *         Retourne la liste des formations
-    //  */
+    // * GetAllCourses
+    // *
+    // * @return
+    // *
+    // * Retourne la liste des formations
+    // */
     // @GetMapping("/courses")
     // public ResponseEntity<List<CourseDTO>> getAllCourses() {
-    //     return new ResponseEntity<>(courseService.getAllCourses(), HttpStatus.OK);
+    // return new ResponseEntity<>(courseService.getAllCourses(), HttpStatus.OK);
     // }
 
     // /**
-    //  * GetOneCourse
-    //  * 
-    //  * @param id
-    //  * @return
-    //  * 
-    //  *         retourne une formation
-    //  */
+    // * GetOneCourse
+    // *
+    // * @param id
+    // * @return
+    // *
+    // * retourne une formation
+    // */
     // @GetMapping("/{id}")
     // public ResponseEntity<CourseDTO> getOneCourse(@PathVariable Integer id) {
-    //     try {
-    //         return new ResponseEntity<>(courseService.getOneCourse(id), HttpStatus.OK);
-    //     } catch (EntityNotFoundException e) {
-    //         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-    //     }
+    // try {
+    // return new ResponseEntity<>(courseService.getOneCourse(id), HttpStatus.OK);
+    // } catch (EntityNotFoundException e) {
+    // return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    // }
     // }
     // /**
-    //  * GetTeachers
-    //  * 
-    //  * @return
-    //  * 
-    //  *         Retourne la liste des formateurs
-    //  */
+    // * GetTeachers
+    // *
+    // * @return
+    // *
+    // * Retourne la liste des formateurs
+    // */
     // @GetMapping("/teachers")
     // public ResponseEntity<List<TeacherDTO>> getTeachers() {
-    //     return new ResponseEntity<>(teacherService.getAllTeachers(), HttpStatus.OK);
+    // return new ResponseEntity<>(teacherService.getAllTeachers(), HttpStatus.OK);
     // }
 
     // /**
-    //  * GetOneTeacher
-    //  * 
-    //  * @param id
-    //  * @return
-    //  * 
-    //  *         Retourne un formateur selon ID
-    //  */
+    // * GetOneTeacher
+    // *
+    // * @param id
+    // * @return
+    // *
+    // * Retourne un formateur selon ID
+    // */
     // @GetMapping("/teachers/{id}")
     // public ResponseEntity<TeacherDTO> getOneTeacher(@PathVariable UUID id) {
-    //     return new ResponseEntity<>(teacherService.getOneTeacher(id), HttpStatus.OK);
+    // return new ResponseEntity<>(teacherService.getOneTeacher(id), HttpStatus.OK);
     // }
 }
