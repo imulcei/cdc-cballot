@@ -1,6 +1,6 @@
 package afpa.fr.cballot.entities;
 
-import afpa.fr.cballot.dto.AdminDTO;
+import afpa.fr.cballot.dtos.AdminDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;

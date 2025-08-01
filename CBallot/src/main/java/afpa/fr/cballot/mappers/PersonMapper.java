@@ -1,6 +1,6 @@
-package afpa.fr.cballot.mapper;
+package afpa.fr.cballot.mappers;
 
-import afpa.fr.cballot.dto.PersonDTO;
+import afpa.fr.cballot.dtos.PersonDTO;
 import afpa.fr.cballot.entities.Person;
 
 public class PersonMapper {

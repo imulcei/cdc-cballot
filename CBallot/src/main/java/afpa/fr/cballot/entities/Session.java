@@ -2,7 +2,7 @@ package afpa.fr.cballot.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import afpa.fr.cballot.dto.SessionDTO;
+import afpa.fr.cballot.dtos.SessionDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

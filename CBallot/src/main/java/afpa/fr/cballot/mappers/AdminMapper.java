@@ -1,6 +1,6 @@
-package afpa.fr.cballot.mapper;
+package afpa.fr.cballot.mappers;
 
-import afpa.fr.cballot.dto.AdminDTO;
+import afpa.fr.cballot.dtos.AdminDTO;
 import afpa.fr.cballot.entities.Admin;
 
 public class AdminMapper {

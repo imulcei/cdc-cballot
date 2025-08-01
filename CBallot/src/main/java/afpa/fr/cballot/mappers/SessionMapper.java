@@ -1,6 +1,6 @@
-package afpa.fr.cballot.mapper;
+package afpa.fr.cballot.mappers;
 
-import afpa.fr.cballot.dto.SessionDTO;
+import afpa.fr.cballot.dtos.SessionDTO;
 import afpa.fr.cballot.entities.Session;
 
 public class SessionMapper {

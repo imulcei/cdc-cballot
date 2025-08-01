@@ -1,6 +1,6 @@
 package afpa.fr.cballot.entities;
 
-import afpa.fr.cballot.dto.StudentDTO;
+import afpa.fr.cballot.dtos.StudentDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;

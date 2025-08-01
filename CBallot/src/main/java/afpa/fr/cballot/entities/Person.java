@@ -2,7 +2,7 @@ package afpa.fr.cballot.entities;
 
 import java.util.UUID;
 
-import afpa.fr.cballot.dto.PersonDTO;
+import afpa.fr.cballot.dtos.PersonDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
