@@ -1,6 +1,6 @@
-INSERT INTO person (email, lastName, firstName)
-VALUES ('admin@mail.com', 'Vandame', 'JC')
-RETURNING id;
+INSERT INTO person (id, email, lastname, firstname)
+VALUES ('gen_random_uuid(), admin@mail.com', 'Vandame', 'JC')
+RETURNING id as id_person;
 
-INSERT INTO admin ("password", id_person)
-VALUES ('$2a$12$DMxVb9xr3RfTQ.S67cPyj.2PeGtcTtYOT4F6njVL.v3ClxZpDAh.S', 1);
+INSERT INTO admin ("password", id)
+VALUES ('$2a$12$DMxVb9xr3RfTQ.S67cPyj.2PeGtcTtYOT4F6njVL.v3ClxZpDAh.S', (SELECT id FROM person));

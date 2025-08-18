@@ -57,4 +57,8 @@ public class VoteRestController {
         voterDto.setVote_cast(true);
         return voterDto;
     }
+
+    /**
+     * TODO: Envoyer un mail après la cloture du vote
+     */
 }
