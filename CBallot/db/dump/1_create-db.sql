@@ -10,19 +10,17 @@ CREATE TABLE person(
 CREATE TABLE "admin"(
    id UUID,
    "password" VARCHAR(100)  NOT NULL,
-   id_person UUID NOT NULL,
    PRIMARY KEY(id),
-   UNIQUE(id_person),
-   FOREIGN KEY(id_person) REFERENCES person(id)
+   UNIQUE(id),
+   FOREIGN KEY(id) REFERENCES person(id)
 );
 
 CREATE TABLE teacher(
    id UUID,
    "password" VARCHAR(100)  NOT NULL,
-   id_person UUID NOT NULL,
    PRIMARY KEY(id),
-   UNIQUE(id_person),
-   FOREIGN KEY(id_person) REFERENCES person(id)
+   UNIQUE(id),
+   FOREIGN KEY(id) REFERENCES person(id)
 );
 
 CREATE TABLE course(
@@ -57,6 +55,17 @@ CREATE TABLE pair(
    FOREIGN KEY(id_election) REFERENCES election(id)
 );
 
+CREATE TABLE student(
+   id UUID,
+   id_pair INTEGER,
+   id_session INTEGER NOT NULL,
+   PRIMARY KEY(id),
+   UNIQUE(id),
+   FOREIGN KEY(id_pair) REFERENCES pair(id),
+   FOREIGN KEY(id_session) REFERENCES session(id),
+   FOREIGN KEY(id) REFERENCES person(id)
+);
+
 CREATE TABLE voter(
    id UUID,
    vote_cast BOOLEAN,
@@ -67,20 +76,9 @@ CREATE TABLE voter(
    FOREIGN KEY(id_election) REFERENCES election(id)
 );
 
-CREATE TABLE student(
-   id SERIAL,
-   id_pair INTEGER,
-   id_session INTEGER NOT NULL,
-   id_person INTEGER NOT NULL,
-   PRIMARY KEY(id),
-   UNIQUE(id_person),
-   FOREIGN KEY(id_pair) REFERENCES pair(id),
-   FOREIGN KEY(id_session) REFERENCES session(id),
-   FOREIGN KEY(id_person) REFERENCES person(id)
-);
 
 CREATE TABLE teacher_course(
-   id_teacher INTEGER,
+   id_teacher UUID,
    id_course INTEGER,
    PRIMARY KEY(id_teacher, id_course),
    FOREIGN KEY(id_teacher) REFERENCES teacher(id),
