@@ -9,10 +9,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import afpa.fr.cballot.dtos.CourseDTO;
 import afpa.fr.cballot.dtos.SessionDTO;
 import afpa.fr.cballot.services.CourseService;
 import afpa.fr.cballot.services.SessionService;
 import afpa.fr.cballot.services.StudentService;
+import jakarta.persistence.EntityNotFoundException;
+
 import org.springframework.web.bind.annotation.RequestParam;
 
 
@@ -53,9 +56,28 @@ public class SessionRestController {
      */
     @GetMapping("/course/{id}")
     public ResponseEntity<?> getSessionsToCourse(@PathVariable Integer id) {
-        return new ResponseEntity<>(sessionService.getSessionsToThisCourse(id), HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(sessionService.getSessionsToThisCourse(id), HttpStatus.OK);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
     }
 
-
+    /**
+     * GetOneSession
+     *
+     * @param id
+     * @return
+     * 
+     * Retourne une session
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getOneSession(@PathVariable Integer id) {
+        try {
+            return new ResponseEntity<>(sessionService.getOneSession(id),HttpStatus.OK);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
 
 }
