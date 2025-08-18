@@ -1,6 +1,7 @@
 package afpa.fr.cballot.entities;
 
 import java.util.Date;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -12,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -34,6 +36,10 @@ public class Session {
     @JsonIgnore
     @JoinColumn(name = "id_course", referencedColumnName = "id")
     private Course course;
+
+    @JsonIgnore
+    @OneToMany(targetEntity = Student.class, mappedBy = "student")
+    private List<Student> students;
 
     public Session() {
     }
@@ -83,6 +89,14 @@ public class Session {
 
     public void setCourse(Course course) {
         this.course = course;
+    }
+
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(List<Student> students) {
+        this.students = students;
     }
 
 }

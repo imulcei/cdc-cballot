@@ -1,12 +1,12 @@
 package afpa.fr.cballot.dtos;
 
+
 public class PairDto {
     private Integer id;
     private Integer counter;
     private ElectionDto election;
 
     public PairDto() {
-
     }
 
     public Integer getId() {

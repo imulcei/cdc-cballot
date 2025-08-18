@@ -50,6 +50,21 @@ public class StudentService {
     }
 
     /**
+     * GetStudentsBySessionId
+     *
+     * @param id
+     * @return
+     * 
+     * retourne une liste de stagiaire selon l'Id de la session
+     */
+    public List<StudentDTO> getStudentsBySessionId(Integer id) {
+        return studentRepository.findAllBySessionId(id)
+                                .stream()
+                                .map(student -> new StudentDTO(student))
+                                .collect(Collectors.toList());
+    }
+
+    /**
      * CreateStudent
      * @param dto
      * @return

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import afpa.fr.cballot.dtos.PairDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -28,6 +29,9 @@ public class Pair {
 
     @OneToMany(mappedBy = "pair", targetEntity = Student.class)
     private List<Student> students;
+
+    public Pair() {
+    }
 
     public Integer getId() {
         return id;

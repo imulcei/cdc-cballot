@@ -24,4 +24,20 @@ public class Student extends Person {
     public Student(StudentDTO dto) {
         super(dto);
     }
+
+    public Pair getPair() {
+        return pair;
+    }
+
+    public void setPair(Pair pair) {
+        this.pair = pair;
+    }
+
+    public Session getSession() {
+        return session;
+    }
+
+    public void setSession(Session session) {
+        this.session = session;
+    }
 }
