@@ -32,6 +32,8 @@ CREATE TABLE course(
 CREATE TABLE session(
    id SERIAL,
    name VARCHAR(50)  NOT NULL,
+   end_date DATE,
+   start_date DATE NOT NULL,
    id_course INTEGER NOT NULL,
    PRIMARY KEY(id),
    FOREIGN KEY(id_course) REFERENCES course(id)

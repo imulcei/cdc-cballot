@@ -1,5 +1,6 @@
 package afpa.fr.cballot.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -33,6 +34,20 @@ public class SessionService {
      */
     public List<SessionDTO> getAllSessions() {
         return sessionRepository.findAll()
+                                .stream()
+                                .map(session -> new SessionDTO(session))
+                                .collect(Collectors.toList());
+    }
+
+    /**
+     * GetSessionsToThisCourse
+     * @param id
+     * @return
+     * 
+     * Retourne une listede session lié à la formation (par l'id)
+     */
+    public List<SessionDTO> getSessionsToThisCourse(Integer id) {
+        return sessionRepository.findByCourseId(id)
                                 .stream()
                                 .map(session -> new SessionDTO(session))
                                 .collect(Collectors.toList());
@@ -80,6 +95,8 @@ public class SessionService {
 
         Session session = original.get();
         session.setName(dto.getName());
+        session.setStart_date(dto.getStart_date());
+        session.setEnd_date(dto.getEnd_date());
 
         return mapper.converteToDTO(sessionRepository.save(session));
     }

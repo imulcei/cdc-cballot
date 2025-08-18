@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,6 +13,8 @@ import afpa.fr.cballot.dtos.SessionDTO;
 import afpa.fr.cballot.services.CourseService;
 import afpa.fr.cballot.services.SessionService;
 import afpa.fr.cballot.services.StudentService;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/api/sessions")
@@ -32,14 +35,27 @@ public class SessionRestController {
      * 
      * @return
      * 
-     * Retourne toute les sessions en cours (générales)
+     * Retourne toute les sessions (générales)
      *
      */
     @GetMapping
     public ResponseEntity<?> getAllSessions() {
-        List<SessionDTO> sessions = sessionService.getAllSessions();
-
-        return new ResponseEntity<>(sessions, HttpStatus.OK);
+        return new ResponseEntity<>(sessionService.getAllSessions(), HttpStatus.OK);
     }
+
+    /**
+     * GetSessionToCourse
+     *
+     * @param id
+     * @return
+     * 
+     * Retourne la liste des sessions d'une formation
+     */
+    @GetMapping("/course/{id}")
+    public ResponseEntity<?> getSessionsToCourse(@PathVariable Integer id) {
+        return new ResponseEntity<>(sessionService.getSessionsToThisCourse(id), HttpStatus.OK);
+    }
+
+
 
 }
