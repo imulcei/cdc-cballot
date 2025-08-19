@@ -20,6 +20,9 @@ public class SessionDTO {
         this.end_date = session.getEnd_date();
     }
 
+    public SessionDTO(String name, Date start_date, Date end_date) {
+    }
+
     public Integer getId() {
         return id;
     }
