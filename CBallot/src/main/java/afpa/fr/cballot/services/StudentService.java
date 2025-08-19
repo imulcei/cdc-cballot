@@ -65,6 +65,19 @@ public class StudentService {
     }
 
     /**
+     * GetStudentBySessionId
+     *
+     * @param sessionId
+     * @param studentId
+     * @return
+     * 
+     * Retourne un stagiaire selon la session
+     */
+    public StudentDTO getStudentBySessionId(Integer sessionId, UUID studentId) {
+        return mapper.converteToDTO(studentRepository.findByIdAndSessionId(studentId, sessionId).orElse(null));
+    }
+
+    /**
      * CreateStudent
      * @param dto
      * @return

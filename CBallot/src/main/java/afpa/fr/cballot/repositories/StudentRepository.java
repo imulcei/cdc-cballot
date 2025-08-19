@@ -1,6 +1,6 @@
 package afpa.fr.cballot.repositories;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -11,9 +11,9 @@ import afpa.fr.cballot.entities.Student;
 
 @Repository
 public interface StudentRepository extends JpaRepository <Student, UUID> {
+    List<Student> findAllBySessionId(Integer id);
 
-    Optional<Student> findBySessionId(Integer id);
+    Optional<Student> findByIdAndSessionId(UUID id_student, Integer id_session);
 
-    Collection<Student> findAllBySessionId(Integer id);
-    
+    boolean existsBySessionIdAndId(Integer id_session, UUID id);
 }
