@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import afpa.fr.cballot.dtos.CourseDTO;
+import afpa.fr.cballot.dtos.CourseWithTeachersDTO;
+import afpa.fr.cballot.dtos.TeacherDTO;
 import afpa.fr.cballot.entities.Course;
 import afpa.fr.cballot.entities.Teacher;
 import afpa.fr.cballot.mappers.CourseMapper;
@@ -19,13 +21,13 @@ import jakarta.servlet.http.HttpServletResponse;
 @Service
 public class CourseService {
 
-    private final CourseRepository repository;
+    private final CourseRepository courseRepository;
     private final TeacherRepository teacherRepository;
 
     private final CourseMapper mapper;
 
     public CourseService(CourseRepository repository, TeacherRepository teacherRepository, CourseMapper mapper) {
-        this.repository = repository;
+        this.courseRepository = repository;
         this.teacherRepository = teacherRepository;
         this.mapper = mapper;
     }
@@ -38,7 +40,7 @@ public class CourseService {
      *         Retourne la liste des formations
      */
     public List<CourseDTO> getAllCourses() {
-        return repository.findAll()
+        return courseRepository.findAll()
                 .stream()
                 .map(course -> new CourseDTO(course))
                 .collect(Collectors.toList());
@@ -50,10 +52,19 @@ public class CourseService {
      * @param id
      * @return
      * 
-     *         Retourne une formation
+     *         Retourne une formation et sa liste de formateurs
      */
-    public CourseDTO getOneCourse(Integer id) {
-        return mapper.converteToDTO(repository.findById(id).orElse(null));
+    public CourseWithTeachersDTO getOneCourse(Integer id) {
+        Course course = courseRepository.findById(id).orElse(null);
+
+        List<TeacherDTO> teachers = course.getTeachers().stream()
+                .map(teacher -> new TeacherDTO(teacher))
+                .toList();
+
+        return new CourseWithTeachersDTO(
+                course.getId(),
+                course.getName(),
+                teachers);
     }
 
     /**
@@ -64,7 +75,7 @@ public class CourseService {
      */
     public CourseDTO createCourse(CourseDTO dto) {
         Course course = mapper.converteToEntity(dto);
-        course = repository.save(course);
+        course = courseRepository.save(course);
         dto.setId(dto.getId());
 
         return dto;
@@ -72,36 +83,49 @@ public class CourseService {
 
     /**
      * AddTeacherToCourse
+     * 
      * @param courseId
      * @param teacherId
      * 
-     * Intégration d'un formateur dans une formation
+     *                  Intégration d'un formateur dans une formation
      */
-    public void addTeacherToCourse(Integer courseId, UUID teacherId) {
-        Course course = repository.findById(courseId)
+    public CourseWithTeachersDTO addTeacherToCourse(Integer courseId, List<UUID> teacherIds) {
+        Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new EntityNotFoundException("Course not found"));
-        Teacher teacher = teacherRepository.findById(teacherId)
-                .orElseThrow(() -> new EntityNotFoundException("Teacher not found"));
 
-        course.getTeachers().add(teacher);
-        repository.save(course);
+        List<Teacher> teachers = teacherRepository.findAllById(teacherIds);
+
+        if (teachers.isEmpty()) {
+            throw new EntityNotFoundException("No teachers found for given IDs");
+        }
+
+        course.getTeachers().addAll(teachers);
+        courseRepository.save(course);
+
+        return getOneCourse(courseId);
     }
 
     /**
      * RemoveTeacherToCourse
-     * @param courseId
-     * @param teacherId
      * 
-     * Retire un formateur d'une formation
+     * @param courseId
+     * @param teacherIds
+     * 
+     *                   Retire un formateur d'une formation
      */
-    public void removeTeacherToCourse(Integer courseId, UUID teacherId) {
-        Course course = repository.findById(courseId)
+    public CourseWithTeachersDTO removeTeacherFromCourse(Integer courseId, List<UUID> teacherIds) {
+        Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new EntityNotFoundException("Course not found"));
-        Teacher teacher = teacherRepository.findById(teacherId)
-                .orElseThrow(() -> new EntityNotFoundException("Teacher not found"));
 
-        course.getTeachers().remove(teacher);
-        repository.save(course);
+        List<Teacher> teachers = teacherRepository.findAllById(teacherIds);
+
+        if (teachers.isEmpty()) {
+            throw new EntityNotFoundException("No Teachers found for given IDs");
+        }
+        course.getTeachers().removeAll(teachers);
+        courseRepository.save(course);
+
+        return getOneCourse(courseId);
     }
 
     /**
@@ -112,7 +136,7 @@ public class CourseService {
      * @return
      */
     public CourseDTO pudateCourse(Integer id, CourseDTO dto) {
-        Optional<Course> original = repository.findById(id);
+        Optional<Course> original = courseRepository.findById(id);
 
         if (original.isEmpty()) {
             throw new EntityNotFoundException("Formation not found");
@@ -124,7 +148,7 @@ public class CourseService {
         Course course = original.get();
         course.setName(dto.getName());
 
-        return mapper.converteToDTO(repository.save(course));
+        return mapper.converteToDTO(courseRepository.save(course));
     }
 
     /**
@@ -134,8 +158,8 @@ public class CourseService {
      * @param response
      */
     public void removeCourse(Integer id, HttpServletResponse response) {
-        if (repository.existsById(id)) {
-            repository.deleteById(id);
+        if (courseRepository.existsById(id)) {
+            courseRepository.deleteById(id);
             response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         } else {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);

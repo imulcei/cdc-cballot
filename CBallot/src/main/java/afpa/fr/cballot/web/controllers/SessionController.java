@@ -3,7 +3,10 @@ package afpa.fr.cballot.web.controllers;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import afpa.fr.cballot.dtos.SessionDTO;
+import afpa.fr.cballot.dtos.SessionWithAllStudentsDTO;
 import afpa.fr.cballot.dtos.SessionWithStudentsDTO;
+import afpa.fr.cballot.dtos.StudentDTO;
 import afpa.fr.cballot.services.SessionService;
 import afpa.fr.cballot.services.StudentService;
 import jakarta.persistence.EntityNotFoundException;
@@ -49,7 +52,7 @@ public class SessionController {
      *         la session
      */
     @GetMapping
-    public ResponseEntity<?> presentAllStudents() {
+    public ResponseEntity<List<StudentDTO>> presentAllStudents() {
         return new ResponseEntity<>(studentService.getAllStudents(), HttpStatus.OK);
     }
 
@@ -62,7 +65,7 @@ public class SessionController {
      *         Crée une session avec une liste de stagiaire
      */
     @PostMapping
-    public ResponseEntity<?> createSessionWithStudents(@RequestBody SessionWithStudentsDTO dto) {
+    public ResponseEntity<SessionWithStudentsDTO> createSessionWithStudents(@RequestBody SessionWithStudentsDTO dto) {
         return new ResponseEntity<>(sessionService.createSession(dto), HttpStatus.CREATED);
     }
 
@@ -81,7 +84,7 @@ public class SessionController {
      *         renvoie une session
      */
     @GetMapping("/{id}")
-    public ResponseEntity<?> getSession(@PathVariable Integer id) {
+    public ResponseEntity<SessionWithStudentsDTO> getSession(@PathVariable Integer id) {
         return new ResponseEntity<>(sessionService.getOneSession(id), HttpStatus.OK);
     }
 
@@ -100,7 +103,7 @@ public class SessionController {
      *         Permet la mise à jour la session
      */
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateSession(@PathVariable Integer id, @RequestBody SessionWithStudentsDTO dto) {
+    public ResponseEntity<SessionDTO> updateSession(@PathVariable Integer id, @RequestBody SessionWithStudentsDTO dto) {
         try {
             return new ResponseEntity<>(sessionService.updateSession(id, dto), HttpStatus.OK);
         } catch (EntityNotFoundException e) {
@@ -126,7 +129,7 @@ public class SessionController {
      *         des stagiaires
      */
     @GetMapping("/{id}/students")
-    public ResponseEntity<?> presentStudents(@PathVariable Integer id) {
+    public ResponseEntity<SessionWithAllStudentsDTO> presentStudents(@PathVariable Integer id) {
         return new ResponseEntity<>(sessionService.getOneSessionWithAllStudents(id), HttpStatus.OK);
     }
 
@@ -140,7 +143,7 @@ public class SessionController {
      *         Ajoute une liste de stagiaire à la session
      */
     @PostMapping("/{id}/students")
-    public ResponseEntity<?> addStudents(@PathVariable Integer id, @RequestBody List<UUID> studentsIds) {
+    public ResponseEntity<SessionWithAllStudentsDTO> addStudents(@PathVariable Integer id, @RequestBody List<UUID> studentsIds) {
         try {
             sessionService.addStudentsToSession(id, studentsIds);
             return new ResponseEntity<>(sessionService.getOneSessionWithAllStudents(id), HttpStatus.ACCEPTED);
@@ -167,7 +170,7 @@ public class SessionController {
      *         Supprime une liste de stagiaire à la session
      */
     @PostMapping("/{id}/students")
-    public ResponseEntity<?> removeStudentFromSession(@PathVariable Integer id, @RequestBody List<UUID> studentsIds) {
+    public ResponseEntity<SessionWithAllStudentsDTO> removeStudentFromSession(@PathVariable Integer id, @RequestBody List<UUID> studentsIds) {
         try {
             sessionService.removeStudentsFromSession(id, studentsIds);
             return new ResponseEntity<>(sessionService.getOneSessionWithAllStudents(id), HttpStatus.ACCEPTED);
