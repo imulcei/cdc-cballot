@@ -63,7 +63,7 @@ public class CourseService {
 
         return new CourseWithTeachersDTO(
                 course.getId(),
-                course.getName(),
+                course.getLibelle(),
                 teachers);
     }
 
@@ -135,7 +135,7 @@ public class CourseService {
      * @param dto
      * @return
      */
-    public CourseDTO pudateCourse(Integer id, CourseDTO dto) {
+    public CourseDTO updateCourse(Integer id, CourseDTO dto) {
         Optional<Course> original = courseRepository.findById(id);
 
         if (original.isEmpty()) {
@@ -146,7 +146,7 @@ public class CourseService {
         }
 
         Course course = original.get();
-        course.setName(dto.getName());
+        course.setName(dto.getLibelle());
 
         return mapper.converteToDTO(courseRepository.save(course));
     }
