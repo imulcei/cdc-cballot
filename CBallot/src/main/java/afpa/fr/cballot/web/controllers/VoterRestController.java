@@ -19,6 +19,8 @@ import afpa.fr.cballot.entities.Pair;
 import afpa.fr.cballot.entities.Voter;
 import afpa.fr.cballot.mappers.PairDtoMapper;
 import afpa.fr.cballot.mappers.PairMapper;
+import afpa.fr.cballot.mappers.VoterDtoMapper;
+import afpa.fr.cballot.mappers.VoterMapper;
 import afpa.fr.cballot.repositories.PairRepository;
 import afpa.fr.cballot.repositories.VoterRepository;
 import afpa.fr.cballot.services.PairService;
@@ -37,7 +39,11 @@ public class VoterRestController {
     @Autowired
     private PairMapper pairMapper;
     @Autowired
+    private VoterMapper voterMapper;
+    @Autowired
     private PairDtoMapper pairDtoMapper;
+    @Autowired
+    private VoterDtoMapper voterDtoMapper;
     @Autowired
     private VoterRepository voterRepository;
 
@@ -49,6 +55,21 @@ public class VoterRestController {
     @ResponseStatus(HttpStatus.OK)
     public List<VoterDto> getAllVoters() {
         return voterService.findAll();
+    }
+
+    /**
+     * Créer un votant.
+     * 
+     * @param id
+     * @param idPair
+     * @return
+     */
+    @PostMapping(value = "/create")
+    @ResponseStatus(HttpStatus.CREATED)
+    public VoterDto createVoter(@RequestBody VoterDto voterDto) {
+        Voter voter = voterMapper.apply(voterDto);
+        voter = voterService.save(voter);
+        return voterDtoMapper.apply(voter);
     }
 
     /**
