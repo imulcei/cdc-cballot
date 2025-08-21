@@ -197,6 +197,4 @@ public class SessionController {
     public void removeSession(@PathVariable Integer id, HttpServletResponse response) {
         sessionService.removeSession(id, response);
     }
-
-    // TODO : Recréer un endpoint pour la gestion de stagiaire (création / suppression)
 }
