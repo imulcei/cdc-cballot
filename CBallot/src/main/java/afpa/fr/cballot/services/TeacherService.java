@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 
 import afpa.fr.cballot.dtos.TeacherDTO;
 import afpa.fr.cballot.entities.Teacher;
+import afpa.fr.cballot.mappers.CourseMapper;
 import afpa.fr.cballot.mappers.TeacherMapper;
+import afpa.fr.cballot.repositories.CourseRepository;
 import afpa.fr.cballot.repositories.TeacherRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,12 +20,16 @@ import jakarta.servlet.http.HttpServletResponse;
 public class TeacherService {
 
     private final TeacherRepository teacherRepository;
+    private final CourseRepository courseRepository;
 
     private final TeacherMapper mapper;
+    private final CourseMapper courseMapper;
 
-    public TeacherService(TeacherRepository teacherRepository, TeacherMapper mapper) {
+    public TeacherService(TeacherRepository teacherRepository, CourseRepository courseRepository, TeacherMapper mapper, CourseMapper courseMapper) {
         this.teacherRepository = teacherRepository;
+        this.courseRepository =  courseRepository;
         this.mapper = mapper;
+        this.courseMapper = courseMapper;
     }
 
     /**
@@ -51,7 +57,7 @@ public class TeacherService {
     }
 
     public List<TeacherDTO> getTeachersForOneCourse(Integer id) {
-        return teacherRepository.findAllByCourseId(id)
+        return courseRepository.findAllTeacherById(id)
                                 .stream()
                                 .map(teacher -> new TeacherDTO(teacher))
                                 .collect(Collectors.toList());
