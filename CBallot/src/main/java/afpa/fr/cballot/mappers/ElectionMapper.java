@@ -15,7 +15,7 @@ import afpa.fr.cballot.entities.Voter;
 public class ElectionMapper implements Function<ElectionDto, Election> {
 
     @Autowired
-    private VoterMapper voteMapper;
+    private VoterMapper voterMapper;
 
     @Override
     public Election apply(ElectionDto electionDto) {
@@ -27,7 +27,7 @@ public class ElectionMapper implements Function<ElectionDto, Election> {
 
         List<Voter> voters = electionDto.getVoters()
                 .stream()
-                .map(voteMapper)
+                .map(voterMapper)
                 .collect(Collectors.toList());
         election.setVoters(voters);
 

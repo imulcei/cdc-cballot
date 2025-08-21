@@ -8,6 +8,7 @@ public class VoterDto {
     private UUID id;
     private Boolean vote_cast;
     private String email;
+    private Integer electionId;
     @JsonIgnore
     private ElectionDto election;
 
@@ -47,4 +48,12 @@ public class VoterDto {
         this.election = election;
     }
 
+    public Integer getElectionId() {
+        electionId = election.getId();
+        return electionId;
+    }
+
+    public void setElectionId(Integer electionId) {
+        this.electionId = electionId;
+    }
 }

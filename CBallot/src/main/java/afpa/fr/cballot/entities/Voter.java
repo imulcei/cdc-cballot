@@ -25,8 +25,7 @@ public class Voter {
 
     @Column(name = "email")
     private String email;
-
-    @JsonIgnore
+    
     @ManyToOne
     @JoinColumn(name = "id_election")
     private Election election;
