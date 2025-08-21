@@ -20,13 +20,13 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
-    @Column(name = "lastname")
+    @Column(name = "lastname", nullable = false)
     private String lastName;
 
-    @Column(name = "firstname")
+    @Column(name = "firstname", nullable = false)
     private String firstName;
 
     public Person() {
@@ -53,22 +53,6 @@ public class Person {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getLastname() {
-        return lastName;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastName = lastname;
-    }
-
-    public String getFirstname() {
-        return firstName;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstName = firstname;
     }
 
     public String getLastName() {

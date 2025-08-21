@@ -76,7 +76,7 @@ public class CourseService {
     public CourseDTO createCourse(CourseDTO dto) {
         Course course = mapper.converteToEntity(dto);
         course = courseRepository.save(course);
-        dto.setId(dto.getId());
+        dto.setId(course.getId());
 
         return dto;
     }

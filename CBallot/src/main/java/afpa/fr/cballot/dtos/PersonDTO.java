@@ -2,12 +2,17 @@ package afpa.fr.cballot.dtos;
 
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import afpa.fr.cballot.entities.Person;
 
 public class PersonDTO {
     private UUID id;
+    @JsonProperty("email")
     private String email;
+    @JsonProperty("lastname")
     private String lastName;
+    @JsonProperty("firstname")
     private String firstName;
 
     public PersonDTO() {
