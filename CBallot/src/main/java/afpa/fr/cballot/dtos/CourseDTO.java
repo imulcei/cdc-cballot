@@ -4,14 +4,14 @@ import afpa.fr.cballot.entities.Course;
 
 public class CourseDTO {
     private Integer id;
-    private String name;
+    private String libelle;
 
     public CourseDTO() {
     }
 
     public CourseDTO(Course course) {
         this.id = course.getId();
-        this.name = course.getName();
+        this.libelle = course.getLibelle();
     }
 
     public Integer getId() {
@@ -22,11 +22,11 @@ public class CourseDTO {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getLibelle() {
+        return libelle;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLibelle(String libelle) {
+        this.libelle = libelle;
     }
 }

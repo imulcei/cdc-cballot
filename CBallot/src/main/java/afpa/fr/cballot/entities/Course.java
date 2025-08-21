@@ -24,8 +24,8 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "libelle")
+    private String libelle;
 
     @ManyToMany
     @JoinTable(name = "teacher_course", joinColumns = @JoinColumn(name = "id_course"), inverseJoinColumns = @JoinColumn(name = "id_teacher"))
@@ -37,7 +37,7 @@ public class Course {
 
     public Course(CourseDTO dto) {
         this.id = dto.getId();
-        this.name = dto.getName();
+        this.libelle = dto.getLibelle();
     }
 
     public Integer getId() {
@@ -48,12 +48,12 @@ public class Course {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getLibelle() {
+        return libelle;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String libelle) {
+        this.libelle = libelle;
     }
 
     public List<Teacher> getTeachers() {
