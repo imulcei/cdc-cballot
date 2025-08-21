@@ -18,11 +18,9 @@ public class EmailServiceImpl implements EmailService {
     @Autowired
     private JavaMailSender emailSender;
     @Autowired
-    private EmailServiceImpl emailServiceImpl;
-    @Autowired
     private SimpleMailMessage mailTemplate;
 
-    public void sendSimpleMessage(String to, String subject, String text) {
+    private void sendSimpleMessage(String to, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
 
         message.setFrom("noreply@afpa-test-cda.com");
@@ -40,7 +38,7 @@ public class EmailServiceImpl implements EmailService {
     public void sendVoteInvitationEmails(Election election) {
         for (Voter voter : election.getVoters()) {
             String text = String.format(mailTemplate.getText(), generateVoteLink(voter));
-            emailServiceImpl.sendSimpleMessage(voter.getEmail(),
+            sendSimpleMessage(voter.getEmail(),
                     "Lien pour voter à l’élection " + election.getId(),
                     text);
         }
@@ -75,7 +73,7 @@ public class EmailServiceImpl implements EmailService {
                     L’équipe organisation
                     """.formatted(result);
 
-            emailServiceImpl.sendSimpleMessage(voter.getEmail(), "Résultats de l’élection des délégués", text);
+            sendSimpleMessage(voter.getEmail(), "Résultats de l’élection des délégués", text);
         }
     }
 }
