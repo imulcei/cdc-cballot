@@ -23,7 +23,7 @@ public class Voter {
 
     @Column(name = "email")
     private String email;
-
+    
     @ManyToOne
     @JoinColumn(name = "id_election")
     private Election election;

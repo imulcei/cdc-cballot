@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,14 +19,13 @@ import afpa.fr.cballot.dtos.ElectionDto;
 import afpa.fr.cballot.dtos.PairDto;
 import afpa.fr.cballot.entities.Election;
 import afpa.fr.cballot.entities.Pair;
+import afpa.fr.cballot.mappers.ElectionDtoMapper;
 import afpa.fr.cballot.mappers.ElectionMapper;
 import afpa.fr.cballot.mappers.PairDtoMapper;
 import afpa.fr.cballot.mappers.PairMapper;
-import afpa.fr.cballot.repositories.ElectionRepository;
 import afpa.fr.cballot.repositories.PairRepository;
 import afpa.fr.cballot.services.ElectionService;
 import afpa.fr.cballot.services.PairService;
-import afpa.fr.cballot.services.impl.EmailServiceImpl;
 
 @RestController
 @RequestMapping("/election")
@@ -48,12 +45,7 @@ public class ElectionRestController {
     @Autowired
     private ElectionMapper electionMapper;
     @Autowired
-    private ElectionRepository electionRepository;
-
-    @Autowired
-    private EmailServiceImpl emailServiceImpl;
-    @Autowired
-    public SimpleMailMessage mailTemplate;
+    private ElectionDtoMapper electionDtoMapper;
 
     /**
      * Renvoyer la liste de tous les binomes.
@@ -72,13 +64,12 @@ public class ElectionRestController {
      * @param electionDto
      * @return
      */
-    @PostMapping(value = "/election")
+    @PostMapping(value = "/create")
     @ResponseStatus(HttpStatus.CREATED)
     public ElectionDto createElection(@RequestBody ElectionDto electionDto) {
         Election election = electionMapper.apply(electionDto);
-        election = electionRepository.save(election);
-        electionDto.setId(election.getId());
-        return electionDto;
+        election = electionService.createElection(election);
+        return electionDtoMapper.apply(election);
     }
 
     /**
@@ -124,6 +115,15 @@ public class ElectionRestController {
     }
 
     /**
+     * Cloturer une élection.
+     */
+    @PostMapping("/election/close/{id}")
+    public ResponseEntity<Void> closeElection(@PathVariable Integer id) {
+        electionService.closeElection(id);
+        return ResponseEntity.ok().build();
+    }
+
+    /**
      * Supprimer une élection.
      * 
      * @param id identifiant de l'élection.
@@ -136,18 +136,5 @@ public class ElectionRestController {
         } else {
             return ResponseEntity.notFound().build();
         }
-    }
-
-    /**
-     * Envoyer un mail après la création d'une élection.
-     * TODO: Modifier pour récupérer le résultat pour le mettre dans "text" et
-     * envoyer le mail à une liste de mails de Voters.
-     */
-    @GetMapping("/send-election-mail")
-    public String sendElectionResultMail(@RequestParam String to, @RequestParam String emailVoters) {
-        String subject = "Résultat du vote des délégués.";
-        String text = String.format(mailTemplate.getText(), emailVoters);
-        emailServiceImpl.sendSimpleMessage(to, subject, text);
-        return "Emails envoyés aux étudiants.";
     }
 }

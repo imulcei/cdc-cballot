@@ -28,13 +28,11 @@ public class Course {
     private String name;
 
     @ManyToMany
-    @JoinTable(name = "teacher_course",
-                    joinColumns = @JoinColumn(name = "id_course"),
-                    inverseJoinColumns = @JoinColumn(name = "id_Teacher"))
+    @JoinTable(name = "teacher_course", joinColumns = @JoinColumn(name = "id_course"), inverseJoinColumns = @JoinColumn(name = "id_Teacher"))
     private List<Teacher> teachers = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(targetEntity = Session.class, mappedBy = "session")
+    @OneToMany(targetEntity = Session.class, mappedBy = "course")
     private List<Session> sessions;
 
     public Course(CourseDTO dto) {
