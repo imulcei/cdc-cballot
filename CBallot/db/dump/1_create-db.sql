@@ -2,7 +2,7 @@ CREATE TABLE person(
    id UUID,
    email VARCHAR(50)  NOT NULL,
    lastname VARCHAR(250)  NOT NULL,
-   firstname VARCHAR(200) ,
+   firstname VARCHAR(200) NOT NULL,
    PRIMARY KEY(id),
    UNIQUE(email)
 );
