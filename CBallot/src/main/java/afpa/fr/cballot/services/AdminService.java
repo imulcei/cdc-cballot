@@ -19,12 +19,11 @@ public class AdminService {
 
     private final AdminRepository adminRepository;
 
+    private final AdminMapper adminMapper;
 
-    private final AdminMapper mapper;
-
-    public AdminService(AdminRepository adminRepository, AdminMapper mapper) {
+    public AdminService(AdminRepository adminRepository, AdminMapper adminMapper) {
         this.adminRepository = adminRepository;
-        this.mapper = mapper;
+        this.adminMapper = adminMapper;
     }
 
     /**
@@ -48,7 +47,7 @@ public class AdminService {
      * Retourne un admin selon ID
      */
     public AdminDTO getOneAdmin(UUID id) {
-        return mapper.converteToDTO(adminRepository.findById(id).orElse(null));
+        return adminMapper.converteToDTO(adminRepository.findById(id).orElse(null));
     }
 
     /**
@@ -59,7 +58,7 @@ public class AdminService {
      * Enregistre un admin selon les params entrés
      */
     public AdminDTO createAdmin(AdminDTO dto) {
-        return mapper.converteToDTO(adminRepository.save(mapper.converteToEntity(dto)));
+        return adminMapper.converteToDTO(adminRepository.save(adminMapper.converteToEntity(dto)));
     }
 
     /**
@@ -86,7 +85,7 @@ public class AdminService {
         admin.setLastName(dto.getLastName());
         admin.setFirstName(dto.getFirstName());
 
-        return mapper.converteToDTO(adminRepository.save(admin));
+        return adminMapper.converteToDTO(adminRepository.save(admin));
     }
 
     /**
