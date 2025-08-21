@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import afpa.fr.cballot.dtos.PairDto;
+import afpa.fr.cballot.dtos.VoterDto;
 import afpa.fr.cballot.entities.Pair;
 import afpa.fr.cballot.entities.Voter;
 import afpa.fr.cballot.mappers.PairDtoMapper;
@@ -21,13 +22,16 @@ import afpa.fr.cballot.mappers.PairMapper;
 import afpa.fr.cballot.repositories.PairRepository;
 import afpa.fr.cballot.repositories.VoterRepository;
 import afpa.fr.cballot.services.PairService;
+import afpa.fr.cballot.services.VoterService;
 
 @RestController
-@RequestMapping("/vote")
+@RequestMapping("/api/voter")
 public class VoterRestController {
 
     @Autowired
     private PairService pairService;
+    @Autowired
+    private VoterService voterService;
     @Autowired
     private PairRepository pairRepository;
     @Autowired
@@ -37,16 +41,14 @@ public class VoterRestController {
     @Autowired
     private VoterRepository voterRepository;
 
-    @Autowired
-
     /**
-     * Renvoyer la liste de tous les binomes.
+     * Renvoyer la liste de tous les votants.
      * 
      */
-    @GetMapping("/{id}")
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<PairDto> getAllPairs() {
-        return pairService.findAll();
+    public List<VoterDto> getAllVoters() {
+        return voterService.findAll();
     }
 
     /**

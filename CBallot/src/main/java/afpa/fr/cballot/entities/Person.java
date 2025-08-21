@@ -23,10 +23,10 @@ public class Person {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "lastName")
+    @Column(name = "lastname")
     private String lastName;
 
-    @Column(name = "firstName")
+    @Column(name = "firstname")
     private String firstName;
 
     public Person() {

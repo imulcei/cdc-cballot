@@ -28,7 +28,7 @@ import afpa.fr.cballot.services.ElectionService;
 import afpa.fr.cballot.services.PairService;
 
 @RestController
-@RequestMapping("/election")
+@RequestMapping("/api/election")
 public class ElectionRestController {
 
     @Autowired
