@@ -34,7 +34,7 @@ public class Course {
     private List<Teacher> teachers = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(targetEntity = Session.class, mappedBy = "session")
+    @OneToMany(targetEntity = Session.class, mappedBy = "course")
     private List<Session> sessions;
 
     public Course(CourseDTO dto) {

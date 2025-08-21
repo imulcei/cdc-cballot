@@ -2,6 +2,8 @@ package afpa.fr.cballot.entities;
 
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,6 +26,7 @@ public class Voter {
     @Column(name = "email")
     private String email;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_election")
     private Election election;
