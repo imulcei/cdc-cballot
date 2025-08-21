@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import afpa.fr.cballot.dtos.TeacherDTO;
 import afpa.fr.cballot.entities.Teacher;
-import afpa.fr.cballot.mappers.CourseMapper;
 import afpa.fr.cballot.mappers.TeacherMapper;
 import afpa.fr.cballot.repositories.CourseRepository;
 import afpa.fr.cballot.repositories.TeacherRepository;
@@ -23,13 +22,11 @@ public class TeacherService {
     private final CourseRepository courseRepository;
 
     private final TeacherMapper mapper;
-    private final CourseMapper courseMapper;
 
-    public TeacherService(TeacherRepository teacherRepository, CourseRepository courseRepository, TeacherMapper mapper, CourseMapper courseMapper) {
+    public TeacherService(TeacherRepository teacherRepository, CourseRepository courseRepository, TeacherMapper mapper) {
         this.teacherRepository = teacherRepository;
         this.courseRepository =  courseRepository;
         this.mapper = mapper;
-        this.courseMapper = courseMapper;
     }
 
     /**

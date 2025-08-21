@@ -43,7 +43,7 @@ public class VoterRestController {
      * Renvoyer la liste de tous les binomes.
      * 
      */
-    @GetMapping("/${id}")
+    @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public List<PairDto> getAllPairs() {
         return pairService.findAll();
@@ -52,7 +52,7 @@ public class VoterRestController {
     /**
      * Renvoie le résultat du vote d'un votant.
      */
-    @PostMapping(value = "/${id}/submit")
+    @PostMapping(value = "/{id}/submit")
     @ResponseStatus(HttpStatus.CREATED)
     public PairDto submitVote(@PathVariable UUID id, @RequestBody Integer idPair) {
         // Récupère le votant
