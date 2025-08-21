@@ -1,16 +1,21 @@
 package afpa.fr.cballot.dtos;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import afpa.fr.cballot.entities.Pair;
 
 public class ElectionDto {
     private Integer id;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private Timestamp start_date;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private Timestamp end_date;
     private List<Pair> pairs;
-    private List<VoterDto> voters;
+    private List<VoterDto> voters = new ArrayList<>();
     // private SessionDto session;
 
     public ElectionDto() {

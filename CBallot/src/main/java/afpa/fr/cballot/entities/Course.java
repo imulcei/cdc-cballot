@@ -35,6 +35,10 @@ public class Course {
     @OneToMany(targetEntity = Session.class, mappedBy = "course")
     private List<Session> sessions;
 
+    public Course() {
+
+    }
+
     public Course(CourseDTO dto) {
         this.id = dto.getId();
         this.libelle = dto.getLibelle();

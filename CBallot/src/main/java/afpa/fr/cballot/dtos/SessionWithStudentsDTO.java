@@ -8,6 +8,6 @@ public record SessionWithStudentsDTO(
     String name,
     Date start_date,
     Date end_date,
-    List<StudentDTO> students
+    List<StudentDTO> students 
 ) {
 }
