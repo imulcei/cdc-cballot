@@ -32,8 +32,8 @@ public class SessionService {
     private final SessionMapper mapper;
     private final StudentMapper studentMapper;
 
-    public SessionService(SessionRepository sessionRepository, StudentRepository studentRepository, CourseRepository courseRepository,
-            SessionMapper mapper, StudentMapper studentMapper) {
+    public SessionService(SessionRepository sessionRepository, StudentRepository studentRepository,
+            SessionMapper mapper, StudentMapper studentMapper, CourseRepository courseRepository) {
         this.sessionRepository = sessionRepository;
         this.studentRepository = studentRepository;
         this.courseRepository = courseRepository;
@@ -105,16 +105,24 @@ public class SessionService {
      * @return
      */
     public SessionWithStudentsDTO createSession(SessionWithStudentsDTO dto) {
+
         SessionDTO sessionDTO = new SessionDTO(
                 dto.name(),
                 dto.start_date(),
                 dto.end_date(),
-                dto.courseId());
-                Session session = mapper.converteToEntity(sessionDTO);
+                dto.id_course());
 
-                Course course = courseRepository.findById(dto.courseId())
-                .orElseThrow(() -> new RuntimeException("Course not found"));
-                session.setCourse(course);
+        Session session = mapper.converteToEntity(sessionDTO);
+
+        /**
+         * Permet d'aller cherche la course correspond à l'id_course donné à la création
+         * de la session et de lier cette course à la session
+         */
+        if (dto.id_course() != null) {
+            Course course = courseRepository.findById(dto.id_course())
+                    .orElseThrow(() -> new RuntimeException("Course not found with id: " + dto.id_course()));
+            session.setCourse(course);
+        }
 
         List<UUID> studentIds = new ArrayList<>();
 

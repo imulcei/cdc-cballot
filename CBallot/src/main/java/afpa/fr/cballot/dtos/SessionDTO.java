@@ -15,6 +15,7 @@ public class SessionDTO {
     private Date start_date;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date end_date;
+    @JsonProperty("id_course")
     private Integer id_course;
 
     public SessionDTO() {

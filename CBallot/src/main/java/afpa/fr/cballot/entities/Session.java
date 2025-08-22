@@ -23,10 +23,10 @@ public class Session {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name ="start_date")
+    @Column(name = "start_date")
     private Date start_date;
 
     @Column(name = "end_date")
