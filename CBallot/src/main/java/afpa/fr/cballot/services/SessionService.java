@@ -11,10 +11,12 @@ import afpa.fr.cballot.dtos.SessionDTO;
 import afpa.fr.cballot.dtos.SessionWithAllStudentsDTO;
 import afpa.fr.cballot.dtos.SessionWithStudentsDTO;
 import afpa.fr.cballot.dtos.StudentDTO;
+import afpa.fr.cballot.entities.Course;
 import afpa.fr.cballot.entities.Session;
 import afpa.fr.cballot.entities.Student;
 import afpa.fr.cballot.mappers.SessionMapper;
 import afpa.fr.cballot.mappers.StudentMapper;
+import afpa.fr.cballot.repositories.CourseRepository;
 import afpa.fr.cballot.repositories.SessionRepository;
 import afpa.fr.cballot.repositories.StudentRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -25,14 +27,16 @@ public class SessionService {
 
     private final SessionRepository sessionRepository;
     private final StudentRepository studentRepository;
+    private final CourseRepository courseRepository;
 
     private final SessionMapper mapper;
     private final StudentMapper studentMapper;
 
-    public SessionService(SessionRepository sessionRepository, StudentRepository studentRepository,
+    public SessionService(SessionRepository sessionRepository, StudentRepository studentRepository, CourseRepository courseRepository,
             SessionMapper mapper, StudentMapper studentMapper) {
         this.sessionRepository = sessionRepository;
         this.studentRepository = studentRepository;
+        this.courseRepository = courseRepository;
         this.mapper = mapper;
         this.studentMapper = studentMapper;
     }
@@ -57,6 +61,7 @@ public class SessionService {
                 session.getName(),
                 session.getStart_date(),
                 session.getEnd_date(),
+                session.getCourse().getId(),
                 students);
     }
 
@@ -88,6 +93,7 @@ public class SessionService {
                 session.getName(),
                 session.getStart_date(),
                 session.getEnd_date(),
+                session.getCourse().getId(),
                 studentsInSession,
                 allStudent);
     }
@@ -102,8 +108,13 @@ public class SessionService {
         SessionDTO sessionDTO = new SessionDTO(
                 dto.name(),
                 dto.start_date(),
-                dto.end_date());
-        Session session = mapper.converteToEntity(sessionDTO);
+                dto.end_date(),
+                dto.courseId());
+                Session session = mapper.converteToEntity(sessionDTO);
+
+                Course course = courseRepository.findById(dto.courseId())
+                .orElseThrow(() -> new RuntimeException("Course not found"));
+                session.setCourse(course);
 
         List<UUID> studentIds = new ArrayList<>();
 

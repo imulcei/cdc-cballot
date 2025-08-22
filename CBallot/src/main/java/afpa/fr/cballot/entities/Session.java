@@ -63,8 +63,8 @@ public class Session {
         return name;
     }
 
-    public void setName(String email) {
-        this.name = email;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Date getStart_date() {
