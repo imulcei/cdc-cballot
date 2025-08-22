@@ -35,13 +35,7 @@ public class Course {
     @OneToMany(targetEntity = Session.class, mappedBy = "course")
     private List<Session> sessions;
 
-<<<<<<< HEAD
     public Course() {}
-=======
-    public Course() {
-
-    }
->>>>>>> 1dcd351f69101618e7b3a272fc435d3a91e4353e
 
     public Course(CourseDTO dto) {
         this.id = dto.getId();

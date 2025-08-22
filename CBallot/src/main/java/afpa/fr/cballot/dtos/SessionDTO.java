@@ -2,13 +2,18 @@ package afpa.fr.cballot.dtos;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import afpa.fr.cballot.entities.Session;
 
 public class SessionDTO {
     private Integer id;
+    @JsonProperty("name")
     private String name;
     private Date start_date;
     private Date end_date;
+    @JsonProperty("id_course")
+    private Integer id_course;
 
     public SessionDTO() {
     }
@@ -18,9 +23,14 @@ public class SessionDTO {
         this.name = session.getName();
         this.start_date = session.getStart_date();
         this.end_date = session.getEnd_date();
+        this.id_course = session.getCourse().getId();
     }
 
-    public SessionDTO(String name, Date start_date, Date end_date) {
+    public SessionDTO(String name, Date start_date, Date end_date, Integer id_course) {
+        this.name = name;
+        this.start_date = start_date;
+        this.end_date = end_date;
+        this.id_course = id_course;
     }
 
     public Integer getId() {
@@ -53,5 +63,13 @@ public class SessionDTO {
 
     public void setEnd_date(Date end_date) {
         this.end_date = end_date;
+    }
+
+    public Integer getId_course() {
+        return id_course;
+    }
+
+    public void setId_course(Integer id_course) {
+        this.id_course = id_course;
     }
 }
