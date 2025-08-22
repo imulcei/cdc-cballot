@@ -60,7 +60,7 @@ CREATE TABLE pair(
 CREATE TABLE student(
    id UUID,
    id_pair INTEGER,
-   id_session INTEGER NOT NULL,
+   id_session INTEGER,
    PRIMARY KEY(id),
    UNIQUE(id),
    FOREIGN KEY(id_pair) REFERENCES pair(id),
