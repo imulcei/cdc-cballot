@@ -36,6 +36,10 @@ public class Election {
     @JoinColumn(name = "id_session")
     private Session session;
 
+    public Election() {
+        
+    }
+
     public Integer getId() {
         return id;
     }

@@ -4,29 +4,30 @@ import afpa.fr.cballot.entities.Student;
 
 public class StudentDTO extends PersonDTO {
 
-    private PairDto id_pair;
-    private SessionDTO id_session;
+    private Integer id_pair;
+    private Integer id_session;
 
     public StudentDTO() {
     }
 
     public StudentDTO(Student student) {
         super(student);
+        this.id_session = student.getSession().getId();
     }
 
-    public PairDto getId_pair() {
+    public Integer getId_pair() {
         return id_pair;
     }
 
-    public void setId_pair(PairDto id_pair) {
+    public void setId_pair(Integer id_pair) {
         this.id_pair = id_pair;
     }
 
-    public SessionDTO getId_session() {
+    public Integer getId_session() {
         return id_session;
     }
 
-    public void setId_session(SessionDTO id_session) {
+    public void setId_session(Integer id_session) {
         this.id_session = id_session;
     }
 

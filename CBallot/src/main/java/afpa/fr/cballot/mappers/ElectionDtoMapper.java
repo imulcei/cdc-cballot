@@ -23,6 +23,7 @@ public class ElectionDtoMapper implements Function<Election, ElectionDto> {
         electionDto.setId(election.getId());
         electionDto.setStart_date(election.getStart_date());
         electionDto.setEnd_date(election.getEnd_date());
+        electionDto.setId_session(election.getSession().getId());
         electionDto.setPairs(election.getPairs());
 
         List<VoterDto> voteDtos = election.getVoters()

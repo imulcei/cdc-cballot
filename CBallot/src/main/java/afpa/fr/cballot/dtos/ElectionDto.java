@@ -14,6 +14,7 @@ public class ElectionDto {
     private Timestamp start_date;
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private Timestamp end_date;
+    private Integer id_session;
     private List<Pair> pairs;
     private List<VoterDto> voters = new ArrayList<>();
     // private SessionDto session;
@@ -62,4 +63,11 @@ public class ElectionDto {
         this.voters = voters;
     }
 
+    public Integer getId_session() {
+        return id_session;
+    }
+
+    public void setId_session(Integer id_session) {
+        this.id_session = id_session;
+    }
 }
