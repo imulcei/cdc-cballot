@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
+
 @RestController
 @RequestMapping("/api/sessions")
 public class SessionController {
@@ -198,4 +199,67 @@ public class SessionController {
     public void removeSession(@PathVariable Integer id, HttpServletResponse response) {
         sessionService.removeSession(id, response);
     }
+
+    //TODO : Création de stagiaire
+    /*
+     * Proposer la creation / modification
+     * / suppression de stagiaire
+     */
+
+    /**
+     * GetAllStudents
+     *
+     * @return
+     * 
+     * Retourne tous les stagiaires
+     */
+    @GetMapping("/students")
+    public ResponseEntity<?> getAllStudents() {
+        return new ResponseEntity<>(studentService.getAllStudents(), HttpStatus.OK);
+    }
+
+    /**
+     * GetOneStudent
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping("/students/{id}")
+    public ResponseEntity<?> getOneStudent(@PathVariable UUID id) {
+        return new ResponseEntity<>(studentService.getOneStudent(id), HttpStatus.OK);
+    }
+
+    /**
+     * CreateStudent
+     * @param student
+     * @return
+     */
+    @PostMapping("/students")
+    public ResponseEntity<?> createStudent(@RequestBody StudentDTO student) {
+        return new ResponseEntity<>(studentService.createStudent(student), HttpStatus.CREATED);
+    }
+
+    /**
+     * UpdateStudent
+     *
+     * @param id
+     * @param student
+     * @return
+     */
+    @PatchMapping("/students/{id}")
+    public ResponseEntity<?> updateStudent(@PathVariable UUID id, @RequestBody StudentDTO student) {
+        return new ResponseEntity<>(studentService.updateStudent(id, student), HttpStatus.OK);
+    }
+
+    /**
+     * DeleteStudent
+     *
+     * @param id
+     * @param response
+     */
+    @DeleteMapping("/student/{id}")
+    public void deleteStudent(@PathVariable UUID id, HttpServletResponse response) {
+        studentService.removeStudent(id, response);
+    }
+
 }
