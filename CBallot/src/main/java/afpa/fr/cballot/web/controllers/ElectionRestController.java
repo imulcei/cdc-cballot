@@ -86,6 +86,11 @@ public class ElectionRestController {
     }
 
     /**
+     * TODO: Ajouter 2 étudiants à un binôme
+     * Patch de student
+     */
+
+    /**
      * Modifier un binome en modifiant le numéro de son binome.
      * 
      * @param id      L'identifiant du binome à modifier.

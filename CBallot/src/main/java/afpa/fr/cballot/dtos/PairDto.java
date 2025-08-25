@@ -1,9 +1,12 @@
 package afpa.fr.cballot.dtos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class PairDto {
     private Integer id;
     private Integer counter;
+    private Integer id_election;
+    @JsonIgnore
     private ElectionDto election;
 
     public PairDto() {
@@ -31,6 +34,14 @@ public class PairDto {
 
     public void setElection(ElectionDto election) {
         this.election = election;
+    }
+
+    public Integer getId_election() {
+        return id_election;
+    }
+
+    public void setId_election(Integer id_election) {
+        this.id_election = id_election;
     }
 
 }
