@@ -50,8 +50,8 @@ CREATE TABLE election(
 );
 
 CREATE TABLE pair(
-   id INTEGER,
-   "counter" SERIAL,
+   id SERIAL,
+   "counter" INTEGER,
    id_election INTEGER NOT NULL,
    PRIMARY KEY(id),
    FOREIGN KEY(id_election) REFERENCES election(id)

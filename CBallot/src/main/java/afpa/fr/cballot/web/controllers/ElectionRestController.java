@@ -68,7 +68,6 @@ public class ElectionRestController {
     @ResponseStatus(HttpStatus.CREATED)
     public ElectionDto createElection(@RequestBody ElectionDto electionDto) {
         Election election = electionMapper.apply(electionDto);
-        System.out.println("Election: " + election.getSession().getId());
         election = electionService.createElection(election);
         return electionDtoMapper.apply(election);
     }
