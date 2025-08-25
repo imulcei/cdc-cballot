@@ -8,8 +8,10 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import afpa.fr.cballot.dtos.StudentDTO;
+import afpa.fr.cballot.entities.Pair;
 import afpa.fr.cballot.entities.Student;
 import afpa.fr.cballot.mappers.StudentMapper;
+import afpa.fr.cballot.repositories.PairRepository;
 import afpa.fr.cballot.repositories.StudentRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,31 +21,35 @@ public class StudentService {
 
     private final StudentRepository studentRepository;
     private final StudentMapper mapper;
+    private final PairRepository pairRepository;
 
-    public StudentService(StudentRepository studentRepository, StudentMapper mapper) {
+    public StudentService(StudentRepository studentRepository, StudentMapper mapper, PairRepository pairRepository) {
         this.studentRepository = studentRepository;
         this.mapper = mapper;
+        this.pairRepository = pairRepository;
     }
 
     /**
      * GetAllStudents
+     * 
      * @return
      * 
-     * Retourne la liste de stagiaire
+     *         Retourne la liste de stagiaire
      */
     public List<StudentDTO> getAllStudents() {
         return studentRepository.findAll()
-                                .stream()
-                                .map(student -> new StudentDTO(student))
-                                .collect(Collectors.toList());
+                .stream()
+                .map(student -> new StudentDTO(student))
+                .collect(Collectors.toList());
     }
 
     /**
-     * GetOneStudent 
+     * GetOneStudent
+     * 
      * @param id
      * @return
      * 
-     * Retourne un stagiaire
+     *         Retourne un stagiaire
      */
     public StudentDTO getOneStudent(UUID id) {
         return mapper.converteToDTO(studentRepository.findById(id).orElse(null));
@@ -55,13 +61,13 @@ public class StudentService {
      * @param id
      * @return
      * 
-     * retourne une liste de stagiaire selon l'Id de la session
+     *         retourne une liste de stagiaire selon l'Id de la session
      */
     public List<StudentDTO> getStudentsBySessionId(Integer id) {
         return studentRepository.findAllBySessionId(id)
-                                .stream()
-                                .map(student -> new StudentDTO(student))
-                                .collect(Collectors.toList());
+                .stream()
+                .map(student -> new StudentDTO(student))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -71,7 +77,7 @@ public class StudentService {
      * @param studentId
      * @return
      * 
-     * Retourne un stagiaire selon la session
+     *         Retourne un stagiaire selon la session
      */
     public StudentDTO getStudentBySessionId(Integer sessionId, UUID studentId) {
         return mapper.converteToDTO(studentRepository.findByIdAndSessionId(studentId, sessionId).orElse(null));
@@ -79,10 +85,11 @@ public class StudentService {
 
     /**
      * CreateStudent
+     * 
      * @param dto
      * @return
      * 
-     * Créé et retourne un stagiaire
+     *         Créé et retourne un stagiaire
      */
     public StudentDTO createStudent(StudentDTO dto) {
         return mapper.converteToDTO(studentRepository.save(mapper.converteToEntity(dto)));
@@ -90,12 +97,13 @@ public class StudentService {
 
     /**
      * UpdateStudent
+     * 
      * @param id
      * @param dto
      * @return
      * 
-     * Vérification des données reçu avant sauvegarde
-     * à partir de l'id entrée
+     *         Vérification des données reçu avant sauvegarde
+     *         à partir de l'id entrée
      */
     public StudentDTO updateStudent(UUID id, StudentDTO dto) {
         Optional<Student> originalStudent = studentRepository.findById(id);
@@ -116,11 +124,36 @@ public class StudentService {
     }
 
     /**
+     * Ajouter un student à un binome
+     * 
+     * @param id
+     * @param studentDto
+     * @return
+     */
+
+    public StudentDTO updateIdPair(Integer id, UUID id_student) {
+        Student student = studentRepository.findById(id_student).orElse(null);
+        Pair pair = pairRepository.findById(id).orElse(null);
+
+        if (student == null) {
+            throw new EntityNotFoundException("Student not found");
+        }
+
+        if (pair.getStudents() != null && pair.getStudents().size() >= 2) {
+            throw new EntityNotFoundException("Pair already complete");
+        }
+
+        student.setPair(pairRepository.findById(id).orElse(null));
+        return mapper.converteToDTO(studentRepository.save(student));
+    }
+
+    /**
      * RemoveStudent
+     * 
      * @param id
      * @param response
      * 
-     * Suppression après recherche de l'entité dans la BDD
+     *                 Suppression après recherche de l'entité dans la BDD
      */
     public void removeStudent(UUID id, HttpServletResponse response) {
         if (studentRepository.existsById(id)) {

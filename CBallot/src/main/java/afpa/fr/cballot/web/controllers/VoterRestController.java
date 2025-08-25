@@ -48,7 +48,7 @@ public class VoterRestController {
     private VoterRepository voterRepository;
 
     /**
-     * Renvoyer la liste de tous les votants.
+     * Renvoyer la liste de tous les votants. ✅
      * 
      */
     @GetMapping
@@ -58,7 +58,7 @@ public class VoterRestController {
     }
 
     /**
-     * Créer un votant.
+     * Créer un votant. ✅
      * 
      * @param id
      * @param idPair
@@ -73,11 +73,11 @@ public class VoterRestController {
     }
 
     /**
-     * Renvoie le résultat du vote d'un votant.
+     * Renvoie le résultat du vote d'un votant. ✅
      */
     @PostMapping(value = "/{id}/submit")
     @ResponseStatus(HttpStatus.CREATED)
-    public PairDto submitVote(@PathVariable UUID id, @RequestBody Integer idPair) {
+    public PairDto submitVote(@PathVariable UUID id, @RequestBody Integer id_pair) {
         // Récupère le votant
         Voter voter = voterRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Votant introuvable."));
@@ -87,13 +87,8 @@ public class VoterRestController {
         }
 
         // Vérifie que le binôme existe
-        PairDto pair = pairService.findById(idPair)
+        PairDto pair = pairService.findById(id_pair)
                 .orElseThrow(() -> new RuntimeException("Le binôme n'existe pas."));
-
-        // Vérifie que le binôme correcpond à l'élection
-        if (!pair.getElection().getId().equals(voter.getElection().getId())) {
-            throw new RuntimeException("Le binôme n'appartient pas à cette élection.");
-        }
 
         voter.setVote_cast(true);
         voterRepository.save(voter);

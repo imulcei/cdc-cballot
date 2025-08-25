@@ -21,6 +21,7 @@ public class PairMapper implements Function<PairDto, Pair> {
         pair.setId(pairDto.getId());
         pair.setCounter(pairDto.getCounter());
         pair.setElection(electionService.findById_Election(pairDto.getId_election()));
+        pair.setStudents(pairDto.getStudents());
 
         return pair;
     }

@@ -60,7 +60,7 @@ public class EmailServiceImpl implements EmailService {
         String winnerNames = winner.getStudents().stream().map(s -> s.getFirstName() + " " + s.getLastName())
                 .collect(Collectors.joining(" & "));
 
-        String result = "Le binôme gagnant est :" + winnerNames + " avec " + winner.getCounter() + " voix.";
+        String result = "Le binôme gagnant est : " + winnerNames + " avec " + winner.getCounter() + " voix.";
 
         // Envoyer le mail à tous les votants
         for (Voter voter : election.getVoters()) {
