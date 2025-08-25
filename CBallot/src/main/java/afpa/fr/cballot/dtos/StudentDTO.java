@@ -12,7 +12,12 @@ public class StudentDTO extends PersonDTO {
 
     public StudentDTO(Student student) {
         super(student);
-        // this.id_session = student.getSession().getId();
+        if (student.getSession() != null) {
+            this.id_session = student.getSession().getId();
+        }
+        if (student.getPair() != null) {
+            this.id_pair = student.getPair().getId();
+        }
     }
 
     public Integer getId_pair() {
@@ -30,5 +35,4 @@ public class StudentDTO extends PersonDTO {
     public void setId_session(Integer id_session) {
         this.id_session = id_session;
     }
-
 }
