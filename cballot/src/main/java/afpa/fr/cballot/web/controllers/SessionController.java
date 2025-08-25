@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PutMapping;
 
 
 @RestController
@@ -45,7 +44,7 @@ public class SessionController {
      */
 
     /**
-     * presentAllStudents
+     * presentAllStudents ✅
      *
      * @return
      * 
@@ -59,7 +58,7 @@ public class SessionController {
     }
 
     /**
-     * CreateSessionWithStudents
+     * CreateSessionWithStudents ✅
      *
      * @param dto
      * @return
@@ -78,7 +77,7 @@ public class SessionController {
      */
 
     /**
-     * GetSession
+     * GetSession ✅
      *
      * @param id
      * @return
@@ -96,7 +95,7 @@ public class SessionController {
      */
 
     /**
-     * UpdateSession
+     * UpdateSession ✅
      *
      * @param id
      * @param dto
@@ -104,7 +103,7 @@ public class SessionController {
      * 
      *         Permet la mise à jour la session
      */
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<SessionDTO> updateSession(@PathVariable Integer id, @RequestBody SessionWithStudentsDTO dto) {
         try {
             return new ResponseEntity<>(sessionService.updateSession(id, dto), HttpStatus.OK);
@@ -122,7 +121,7 @@ public class SessionController {
      */
 
     /**
-     * PresentStudents
+     * PresentStudents ✅
      *
      * @param id
      * @return
@@ -136,7 +135,7 @@ public class SessionController {
     }
 
     /**
-     * AddStudents
+     * AddStudents ✅
      *
      * @param id
      * @param studentsIds
@@ -163,7 +162,7 @@ public class SessionController {
      */
 
     /**
-     * RemoveStudentsFromSession
+     * RemoveStudentsFromSession ✅
      *
      * @param id
      * @param studentsIds
@@ -188,7 +187,7 @@ public class SessionController {
      */
 
     /**
-     * RemoveSession
+     * RemoveSession ✅
      *
      * @param id
      * @param response
@@ -200,26 +199,14 @@ public class SessionController {
         sessionService.removeSession(id, response);
     }
 
-    //TODO : Création de stagiaire
+    // ! Création de stagiaire
     /*
      * Proposer la creation / modification
      * / suppression de stagiaire
      */
 
     /**
-     * GetAllStudents
-     *
-     * @return
-     * 
-     * Retourne tous les stagiaires
-     */
-    @GetMapping("/students")
-    public ResponseEntity<?> getAllStudents() {
-        return new ResponseEntity<>(studentService.getAllStudents(), HttpStatus.OK);
-    }
-
-    /**
-     * GetOneStudent
+     * GetOneStudent ✅
      *
      * @param id
      * @return
@@ -230,7 +217,7 @@ public class SessionController {
     }
 
     /**
-     * CreateStudent
+     * CreateStudent ✅
      * @param student
      * @return
      */
@@ -240,7 +227,7 @@ public class SessionController {
     }
 
     /**
-     * UpdateStudent
+     * UpdateStudent ✅
      *
      * @param id
      * @param student
@@ -252,12 +239,12 @@ public class SessionController {
     }
 
     /**
-     * DeleteStudent
+     * DeleteStudent ✅
      *
      * @param id
      * @param response
      */
-    @DeleteMapping("/student/{id}")
+    @DeleteMapping("/students/{id}")
     public void deleteStudent(@PathVariable UUID id, HttpServletResponse response) {
         studentService.removeStudent(id, response);
     }

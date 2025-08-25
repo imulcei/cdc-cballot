@@ -217,7 +217,7 @@ public class SessionService {
     }
 
     /**
-     * RemoveStudentsFromSession
+     * RemoveStudentsFromSession 
      * 
      * @param id
      * @param studentsIds
@@ -229,10 +229,13 @@ public class SessionService {
 
         if (students.isEmpty()) {
             throw new EntityNotFoundException("No students found for given IDs");
+        } else {
+            for (Student student : students) {
+                student.setSession(null);
+            }
         }
 
         session.getStudents().removeAll(students);
-
         sessionRepository.save(session);
     }
 }

@@ -99,4 +99,9 @@ public class Session {
         this.students = students;
     }
 
+    @Override
+    public String toString() {
+        return "Session [id=" + id + ", name=" + name + ", start_date=" + start_date + ", end_date=" + end_date
+                + ", course=" + course + ", students=" + students + "]";
+    }
 }

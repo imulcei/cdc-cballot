@@ -48,7 +48,7 @@ public class FormationController {
      */
 
     /**
-     * GetAllCourseWithTeachers
+     * GetAllCourseWithTeachers ✅
      * 
      * @return
      * 
@@ -68,7 +68,7 @@ public class FormationController {
     }
 
     /**
-     * GetOneCourse
+     * GetOneCourse ✅
      *
      * @param id
      * @return
@@ -90,7 +90,7 @@ public class FormationController {
      */
 
     /**
-     * CreateCourse
+     * CreateCourse ✅
      *
      * @param dto
      * @return
@@ -100,13 +100,36 @@ public class FormationController {
         return new ResponseEntity<>(courseService.createCourse(dto), HttpStatus.CREATED);
     }
 
+    /**
+     * UpdateCourse ✅
+     *
+     * @param id
+     * @param dto
+     * @return
+     */
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> updateCourse(@PathVariable Integer id, @RequestBody CourseDTO dto) {
+        return new ResponseEntity<>(courseService.updateCourse(id, dto), HttpStatus.OK);
+    }
+
+    /**
+     * DeleteCourse ✅
+     *
+     * @param id
+     * @param response
+     */
+    @DeleteMapping("/{id}")
+    public void deleteCourse(@PathVariable Integer id, HttpServletResponse response) {
+        courseService.removeCourse(id, response);
+    }
+
     // ! Formulaire de création de formateur (endpoint 2)
     /*
      * Proposer un formulaire de création de formateur
      */
 
     /**
-     * GetAllTechers
+     * GetAllTechers ✅
      *
      * @return
      * 
@@ -118,7 +141,7 @@ public class FormationController {
     }
 
     /**
-     * CreateTeacher
+     * CreateTeacher ✅
      *
      * @param dto
      * @return
@@ -129,12 +152,24 @@ public class FormationController {
     }
 
     /**
-     * DeleteTeacher
+     * UpdateTeacher ✅
+     *
+     * @param id
+     * @param dto
+     * @return
+     */
+    @PatchMapping("/teachers/{id}")
+    public ResponseEntity<?> updateTeacher(@PathVariable UUID id, @RequestBody TeacherDTO dto) {
+        return new ResponseEntity<>(teacherService.updateTeacher(id, dto), HttpStatus.OK);
+    }
+
+    /**
+     * DeleteTeacher ✅
      *
      * @param id
      * @param response
      */
-    @DeleteMapping("/teacher/{id}")
+    @DeleteMapping("/teachers/{id}")
     public void deleteTeacher(@PathVariable UUID id, HttpServletResponse response) {
         teacherService.removeTeacher(id, response);
     }
@@ -146,7 +181,7 @@ public class FormationController {
      */
 
     /**
-     * AddTeachersToCourse
+     * AddTeachersToCourse ✅
      *
      * @param courseId
      * @param teacherIds
@@ -165,7 +200,7 @@ public class FormationController {
     }
 
     /**
-     * RemoveTeachersFromCourse
+     * RemoveTeachersFromCourse ✅
      * 
      * @param courseId
      * @param teacherIds
