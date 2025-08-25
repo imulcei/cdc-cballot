@@ -12,7 +12,7 @@ public class StudentDTO extends PersonDTO {
 
     public StudentDTO(Student student) {
         super(student);
-        this.id_session = student.getSession().getId();
+        // this.id_session = student.getSession().getId();
     }
 
     public Integer getId_pair() {

@@ -19,8 +19,8 @@ public class VoterDtoMapper implements Function<Voter, VoterDto> {
         voteDto.setId(vote.getId());
         voteDto.setVote_cast(vote.getVote_cast());
         voteDto.setEmail(vote.getEmail());
-
-        voteDto.setElectionId(vote.getElection().getId());
+        voteDto.setId_election(vote.getElection().getId());
+        System.out.println(voteDto.getId_election());
 
         return voteDto;
     }

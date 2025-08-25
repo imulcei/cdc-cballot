@@ -32,6 +32,10 @@ public class ElectionService {
         return sessionRepository.findById(id_session).orElse(null);
     }
 
+    public Election findById_Election(Integer id_election) {
+        return electionRepository.findById(id_election).orElse(null);
+    }
+
     public boolean deleteById(Integer id) {
         return electionRepository.findById(id).map(pair -> {
             electionRepository.delete(pair);
@@ -45,8 +49,8 @@ public class ElectionService {
         return electionSaved;
     }
 
-    public void closeElection(Integer electionId) {
-        Election election = electionRepository.findById(electionId)
+    public void closeElection(Integer id_election) {
+        Election election = electionRepository.findById(id_election)
                 .orElseThrow(() -> new RuntimeException("Election not found"));
         emailService.sendResultEmails(election);
     }
