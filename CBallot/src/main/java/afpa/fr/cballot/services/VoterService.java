@@ -27,4 +27,8 @@ public class VoterService {
     public Voter save(Voter voter) {
         return voterRepository.save(voter);
     }
+
+    public void remove(Voter voter) {
+        voterRepository.delete(voter);
+    }
 }

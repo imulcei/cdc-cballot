@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 
 import afpa.fr.cballot.dtos.PairDto;
 import afpa.fr.cballot.entities.Pair;
+import afpa.fr.cballot.entities.Student;
 import afpa.fr.cballot.mappers.PairDtoMapper;
 import afpa.fr.cballot.repositories.PairRepository;
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class PairService {
@@ -45,9 +47,13 @@ public class PairService {
     }
 
     public boolean deleteById(Integer id) {
-        return pairRepository.findById(id).map(pair -> {
-            pairRepository.delete(pair);
-            return true;
-        }).orElse(false);
+        Pair pair = pairRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Pair not found."));
+        List<Student> students = pair.getStudents();
+        for (Student student : students) {
+            student.setPair(null);
+        }
+        pairRepository.delete(pair);
+        return true;
     }
 }

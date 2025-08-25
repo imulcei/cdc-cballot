@@ -1,5 +1,7 @@
 package afpa.fr.cballot.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import afpa.fr.cballot.dtos.StudentDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -10,10 +12,12 @@ import jakarta.persistence.Table;
 @Table(name = "student")
 public class Student extends Person {
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_pair")
     private Pair pair;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_session")
     private Session session;

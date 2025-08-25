@@ -1,6 +1,7 @@
 package afpa.fr.cballot.web.controllers;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,15 +18,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import afpa.fr.cballot.dtos.ElectionDto;
 import afpa.fr.cballot.dtos.PairDto;
+import afpa.fr.cballot.dtos.StudentDTO;
 import afpa.fr.cballot.entities.Election;
 import afpa.fr.cballot.entities.Pair;
 import afpa.fr.cballot.mappers.ElectionDtoMapper;
 import afpa.fr.cballot.mappers.ElectionMapper;
-import afpa.fr.cballot.mappers.PairDtoMapper;
 import afpa.fr.cballot.mappers.PairMapper;
 import afpa.fr.cballot.repositories.PairRepository;
 import afpa.fr.cballot.services.ElectionService;
 import afpa.fr.cballot.services.PairService;
+import afpa.fr.cballot.services.StudentService;
 
 @RestController
 @RequestMapping("/api/election")
@@ -33,8 +35,6 @@ public class ElectionRestController {
 
     @Autowired
     private PairService pairService;
-    @Autowired
-    private PairDtoMapper pairDtoMapper;
     @Autowired
     private PairMapper pairMapper;
     @Autowired
@@ -47,8 +47,11 @@ public class ElectionRestController {
     @Autowired
     private ElectionDtoMapper electionDtoMapper;
 
+    @Autowired
+    private StudentService studentService;
+
     /**
-     * Renvoyer la liste de tous les binomes.
+     * Renvoyer la liste de tous les binomes. ✅
      * 
      * @return
      */
@@ -59,7 +62,8 @@ public class ElectionRestController {
     }
 
     /**
-     * Créer une élection.
+     * Créer une élection. ✅
+     * TODO : tester l'envoi du mail
      * 
      * @param electionDto
      * @return
@@ -73,7 +77,7 @@ public class ElectionRestController {
     }
 
     /**
-     * Créer un binôme.
+     * Créer un binôme. ✅
      * 
      */
     @PostMapping(value = "/create-pair")
@@ -86,26 +90,28 @@ public class ElectionRestController {
     }
 
     /**
-     * TODO: Ajouter 2 étudiants à un binôme
-     * Patch de student
+     * Ajouter un étudiant à un binôme ✅
      */
-
-    /**
-     * Modifier un binome en modifiant le numéro de son binome.
-     * 
-     * @param id      L'identifiant du binome à modifier.
-     * @param pairDto Binome à modifier.
-     * @return
-     */
-    @PatchMapping("/{id}")
-    public ResponseEntity<PairDto> updatePair(@PathVariable Integer id, @RequestBody PairDto pairDto) {
-        return pairService.update(id, pairDto)
-                .map(updatedPair -> ResponseEntity.ok(pairDtoMapper.apply(updatedPair)))
-                .orElse(ResponseEntity.notFound().build());
+    @PatchMapping("/pair/{id}/add-student")
+    public ResponseEntity<StudentDTO> addPairtoStudent(@PathVariable Integer id,
+            @RequestBody UUID id_student) {
+        return new ResponseEntity<>(studentService.updateIdPair(id, id_student), HttpStatus.OK);
     }
 
     /**
-     * Supprimer un binôme.
+     * Modifier le binome d'un student. ✅
+     * 
+     * @param id      L'identifiant du student à modifier.
+     * @param id_pair L'identifiant du nouveau binome à attribuer.
+     * @return
+     */
+    @PatchMapping("/{id}")
+    public ResponseEntity<StudentDTO> updatePair(@PathVariable UUID id, @RequestBody Integer id_pair) {
+        return new ResponseEntity<>(studentService.updateIdPair(id_pair, id), HttpStatus.OK);
+    }
+
+    /**
+     * Supprimer un binôme. ✅
      * 
      * @param id identifiant du binome.
      * @return
@@ -120,16 +126,17 @@ public class ElectionRestController {
     }
 
     /**
-     * Cloturer une élection.
+     * Cloturer une élection. ✅
+     * (Envoi du mail ✅)
      */
-    @PostMapping("/election/close/{id}")
+    @PostMapping("/close/{id}")
     public ResponseEntity<Void> closeElection(@PathVariable Integer id) {
         electionService.closeElection(id);
         return ResponseEntity.ok().build();
     }
 
     /**
-     * Supprimer une élection.
+     * Supprimer une élection et sa liste de votants. ✅
      * 
      * @param id identifiant de l'élection.
      * @return

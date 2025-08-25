@@ -1,6 +1,10 @@
 package afpa.fr.cballot.dtos;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import afpa.fr.cballot.entities.Student;
 
 public class PairDto {
     private Integer id;
@@ -8,6 +12,7 @@ public class PairDto {
     private Integer id_election;
     @JsonIgnore
     private ElectionDto election;
+    private List<Student> students;
 
     public PairDto() {
     }
@@ -44,4 +49,11 @@ public class PairDto {
         this.id_election = id_election;
     }
 
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(List<Student> students) {
+        this.students = students;
+    }
 }

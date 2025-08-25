@@ -37,7 +37,7 @@ public class Election {
     private Session session;
 
     public Election() {
-        
+
     }
 
     public Integer getId() {
