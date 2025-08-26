@@ -38,6 +38,8 @@ public class AuthService {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(email, password));
 
+        System.out.println("j'arrive jusqu'ici");
+
         // Vérifie Admin
         return adminRepository.findByEmail(email)
                 .map(AdminUserDetails::new)

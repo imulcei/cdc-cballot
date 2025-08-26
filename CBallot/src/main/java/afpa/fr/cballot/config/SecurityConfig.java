@@ -1,6 +1,5 @@
 package afpa.fr.cballot.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,34 +10,40 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import afpa.fr.cballot.entities.entityuserdetails.AdminUserDetails;
+import afpa.fr.cballot.entities.entityuserdetails.TeacherUserDetails;
+import afpa.fr.cballot.repositories.AdminRepository;
+import afpa.fr.cballot.repositories.TeacherRepository;
 import afpa.fr.cballot.services.security.JwtAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-    // private final AuthenticationProvider authenticationProvider;
-    // private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final AdminRepository adminRepository;
+    private final TeacherRepository teacherRepository;
 
-    // public SecurityConfig(AuthenticationProvider authenticationProvider,
-    //         JwtAuthenticationFilter jwtAuthenticationFilter) {
-    //     this.authenticationProvider = authenticationProvider;
-    //     this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-    // }
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    @Autowired
-    AuthenticationProvider authenticationProvider;
-
-    @Autowired
-    JwtAuthenticationFilter jwtAuthenticationFilter;
+    public SecurityConfig(AdminRepository adminRepository,
+            TeacherRepository teacherRepository,
+            JwtAuthenticationFilter jwtAuthenticationFilter) {
+        this.adminRepository = adminRepository;
+        this.teacherRepository = teacherRepository;
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+    }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationProvider authenticationProvider)
+            throws Exception {
         http
                 // Désactiver CSRF proprement
                 .csrf(AbstractHttpConfigurer::disable)
@@ -57,21 +62,30 @@ public class SecurityConfig {
                         // Endpoints accessibles uniquement par l'ADMIN
                         .requestMatchers("/api/**").hasRole("ADMIN")
 
-                        // Tout le reste nécessite d'être authentifié
-                        // .anyRequest().authenticated()
+                // Tout le reste nécessite d'être authentifié
+                // .anyRequest().authenticated()
                 )
 
                 // Activer Basic Auth de façon moderne
                 // .httpBasic(Customizer.withDefaults());
 
                 .sessionManagement(session -> session
-                            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                )
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
+    @Bean
+    UserDetailsService userDetailsService() {
+        return username -> {
+            return adminRepository.findByEmail(username)
+                    .<UserDetails>map(AdminUserDetails::new)
+                    .orElseGet(() -> teacherRepository.findByEmail(username)
+                            .map(TeacherUserDetails::new)
+                            .orElseThrow(() -> new UsernameNotFoundException("User not found.")));
+        };
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -84,7 +98,9 @@ public class SecurityConfig {
     }
 
     @Bean
-    AuthenticationProvider aauthAuthenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider()
+    AuthenticationProvider authAuthenticationProvider(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(userDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder);
+        return authProvider;
     }
 }
