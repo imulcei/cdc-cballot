@@ -1,5 +1,6 @@
 package afpa.fr.cballot.repositories;
 
+import java.util.Optional;
 // import java.util.List;
 import java.util.UUID;
 
@@ -10,5 +11,9 @@ import afpa.fr.cballot.entities.Teacher;
 
 @Repository
 public interface TeacherRepository extends JpaRepository <Teacher, UUID> {
-    // List<Teacher>findAllByCourseId(Integer id);
+    Optional<Teacher> findByEmail(String email);
+
+    boolean existsByEmail(String email);
+
+
 }

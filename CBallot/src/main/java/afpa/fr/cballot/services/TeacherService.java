@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import afpa.fr.cballot.dtos.TeacherDTO;
@@ -20,13 +21,15 @@ public class TeacherService {
 
     private final TeacherRepository teacherRepository;
     private final CourseRepository courseRepository;
+    private final PasswordEncoder passwordEncoder;
 
     private final TeacherMapper mapper;
 
-    public TeacherService(TeacherRepository teacherRepository, CourseRepository courseRepository, TeacherMapper mapper) {
+    public TeacherService(TeacherRepository teacherRepository, CourseRepository courseRepository, TeacherMapper mapper, PasswordEncoder passwordEncoder) {
         this.teacherRepository = teacherRepository;
         this.courseRepository =  courseRepository;
         this.mapper = mapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -69,6 +72,7 @@ public class TeacherService {
      */
     public TeacherDTO createTeacher(TeacherDTO dto) {
         Teacher teacher = mapper.converteToEntity(dto);
+        teacher.setPassword(passwordEncoder.encode(dto.getPassword()));
         teacher = teacherRepository.save(teacher);
         dto.setId(teacher.getId());
 
