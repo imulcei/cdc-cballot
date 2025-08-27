@@ -30,7 +30,6 @@ public class SecurityConfig {
 
     private final AdminRepository adminRepository;
     private final TeacherRepository teacherRepository;
-
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     public SecurityConfig(AdminRepository adminRepository,
@@ -110,4 +109,5 @@ public class SecurityConfig {
         authProvider.setPasswordEncoder(passwordEncoder);
         return authProvider;
     }
+
 }

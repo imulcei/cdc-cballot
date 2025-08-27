@@ -51,10 +51,10 @@ public class JwtService {
 
     private Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
-                    .setSigningKey(key)
-                    .build()
-                    .parseClaimsJws(token)
-                    .getBody();
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 
     private boolean isTokenExpired(String token) {
