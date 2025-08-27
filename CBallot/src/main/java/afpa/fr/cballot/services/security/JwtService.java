@@ -17,19 +17,19 @@ import io.jsonwebtoken.security.Keys;
 public class JwtService {
 
     Dotenv dotenv = Dotenv.load();
-    private static final long EXPIRATION_TIME = 1000 * 60 * 60 * 24 * 30; // 30 jours
+    private static final long EXPIRATION_TIME = 1000 * 60 * 60 * 24 ; // 1 jour
 
     private final Key key = Keys.hmacShaKeyFor(dotenv.get("SECRET_KEY").getBytes());
 
     // Générer un token
     public String generateToken(UserDetails userDetails) {
         return Jwts.builder()
-                .setSubject(userDetails.getUsername()) // Ici = email
-                .claim("roles", userDetails.getAuthorities())
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(key, SignatureAlgorithm.HS256)
-                .compact();
+                    .setSubject(userDetails.getUsername()) // Ici = email
+                    .claim("roles", userDetails.getAuthorities())
+                    .setIssuedAt(new Date())
+                    .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                    .signWith(key, SignatureAlgorithm.HS256)
+                    .compact();
     }
 
     // Extraire l'email (username) depuis le token

@@ -23,7 +23,6 @@ import afpa.fr.cballot.entities.entityuserdetails.TeacherUserDetails;
 import afpa.fr.cballot.repositories.AdminRepository;
 import afpa.fr.cballot.repositories.TeacherRepository;
 import afpa.fr.cballot.services.security.JwtAuthenticationFilter;
-import afpa.fr.cballot.services.security.JwtService;
 
 @Configuration
 @EnableWebSecurity
@@ -31,18 +30,18 @@ public class SecurityConfig {
 
     private final AdminRepository adminRepository;
     private final TeacherRepository teacherRepository;
-    private final JwtService jwtService;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     public SecurityConfig(AdminRepository adminRepository,
             TeacherRepository teacherRepository,
-            JwtService jwtService) {
+            JwtAuthenticationFilter jwtAuthenticationFilter) {
         this.adminRepository = adminRepository;
         this.teacherRepository = teacherRepository;
-        this.jwtService = jwtService;
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http)
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationProvider authenticationProvider)
             throws Exception {
         http
                 // Désactiver CSRF proprement
@@ -62,24 +61,24 @@ public class SecurityConfig {
                         // Endpoints accessibles uniquement par l'ADMIN
                         .requestMatchers("/api/**").hasRole("ADMIN")
 
-                        // Tout le reste nécessite d'être authentifié
-                        .anyRequest().authenticated())
-
-                // Activer Basic Auth de façon moderne
-                // .httpBasic(Customizer.withDefaults());
+                // Tout le reste nécessite d'être authentifié
+                .anyRequest().authenticated()
+                )
 
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authAuthenticationProvider(userDetailsService(), passwordEncoder()))
-                .addFilterBefore(jwtAuthenticationFilter(jwtService, userDetailsService()), UsernamePasswordAuthenticationFilter.class)
+                .authenticationProvider(authenticationProvider)
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(exceptions -> exceptions
                         .authenticationEntryPoint((request, response, authException) -> {
-                            response.setStatus(401);
-                            response.setContentType("application/json");
-                            response.getWriter().write(
-                                    "{\"error\":\"Unauthorized\",\"message\":\"" + authException.getMessage() + "\"}");
+                                response.setStatus(401);
+                                response.setContentType("application/json");
+                                response.getWriter().write(
+                                                "{\"error\":\"Unauthorized\",\"message\":\""
+                                                                + authException.getMessage()
+                                                                + "\"}");
                         }));
-        return http.build();
+                return http.build();
     }
 
     @Bean
@@ -104,17 +103,11 @@ public class SecurityConfig {
     }
 
     @Bean
-    AuthenticationProvider authAuthenticationProvider(UserDetailsService userDetailsService,
+    AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService,
             PasswordEncoder passwordEncoder) {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder);
         return authProvider;
-    }
-
-    @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter(JwtService jwtService,
-            UserDetailsService userDetailsService) {
-        return new JwtAuthenticationFilter(jwtService, userDetailsService);
     }
 
 }
