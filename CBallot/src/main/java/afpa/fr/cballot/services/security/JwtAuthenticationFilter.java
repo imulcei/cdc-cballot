@@ -22,7 +22,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final AdminUserDetailsServiceImpl adminUserDetailsServiceImpl;
     private final TeacherUserDetailsServiceImpl teacherUserDetailsServiceImpl;
 
-    public JwtAuthenticationFilter(JwtService jwtService, AdminUserDetailsServiceImpl adminUserDetailsServiceImpl,
+    public JwtAuthenticationFilter(JwtService jwtService,
+            AdminUserDetailsServiceImpl adminUserDetailsServiceImpl,
             TeacherUserDetailsServiceImpl teacherUserDetailsServiceImpl) {
         this.jwtService = jwtService;
         this.adminUserDetailsServiceImpl = adminUserDetailsServiceImpl;
