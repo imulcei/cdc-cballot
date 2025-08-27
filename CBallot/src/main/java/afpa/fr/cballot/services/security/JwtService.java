@@ -24,11 +24,12 @@ public class JwtService {
     // Générer un token
     public String generateToken(UserDetails userDetails) {
         return Jwts.builder()
-                    .setSubject(userDetails.getUsername()) // Ici = email
-                    .setIssuedAt(new Date())
-                    .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                    .signWith(key, SignatureAlgorithm.HS256)
-                    .compact();
+                .setSubject(userDetails.getUsername()) // Ici = email
+                .claim("roles", userDetails.getAuthorities())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
     }
 
     // Extraire l'email (username) depuis le token
@@ -50,10 +51,10 @@ public class JwtService {
 
     private Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
-                    .setSigningKey(key)
-                    .build()
-                    .parseClaimsJws(token)
-                    .getBody();
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 
     private boolean isTokenExpired(String token) {

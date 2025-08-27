@@ -23,6 +23,7 @@ import afpa.fr.cballot.entities.entityuserdetails.TeacherUserDetails;
 import afpa.fr.cballot.repositories.AdminRepository;
 import afpa.fr.cballot.repositories.TeacherRepository;
 import afpa.fr.cballot.services.security.JwtAuthenticationFilter;
+import afpa.fr.cballot.services.security.JwtService;
 
 @Configuration
 @EnableWebSecurity
@@ -30,19 +31,18 @@ public class SecurityConfig {
 
     private final AdminRepository adminRepository;
     private final TeacherRepository teacherRepository;
-
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtService jwtService;
 
     public SecurityConfig(AdminRepository adminRepository,
             TeacherRepository teacherRepository,
-            JwtAuthenticationFilter jwtAuthenticationFilter) {
+            JwtService jwtService) {
         this.adminRepository = adminRepository;
         this.teacherRepository = teacherRepository;
-        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.jwtService = jwtService;
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationProvider authenticationProvider)
+    public SecurityFilterChain securityFilterChain(HttpSecurity http)
             throws Exception {
         http
                 // Désactiver CSRF proprement
@@ -62,17 +62,23 @@ public class SecurityConfig {
                         // Endpoints accessibles uniquement par l'ADMIN
                         .requestMatchers("/api/**").hasRole("ADMIN")
 
-                // Tout le reste nécessite d'être authentifié
-                // .anyRequest().authenticated()
-                )
+                        // Tout le reste nécessite d'être authentifié
+                        .anyRequest().authenticated())
 
                 // Activer Basic Auth de façon moderne
                 // .httpBasic(Customizer.withDefaults());
 
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .authenticationProvider(authAuthenticationProvider(userDetailsService(), passwordEncoder()))
+                .addFilterBefore(jwtAuthenticationFilter(jwtService, userDetailsService()), UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling(exceptions -> exceptions
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            response.setStatus(401);
+                            response.setContentType("application/json");
+                            response.getWriter().write(
+                                    "{\"error\":\"Unauthorized\",\"message\":\"" + authException.getMessage() + "\"}");
+                        }));
         return http.build();
     }
 
@@ -98,9 +104,17 @@ public class SecurityConfig {
     }
 
     @Bean
-    AuthenticationProvider authAuthenticationProvider(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+    AuthenticationProvider authAuthenticationProvider(UserDetailsService userDetailsService,
+            PasswordEncoder passwordEncoder) {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder);
         return authProvider;
     }
+
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter(JwtService jwtService,
+            UserDetailsService userDetailsService) {
+        return new JwtAuthenticationFilter(jwtService, userDetailsService);
+    }
+
 }
