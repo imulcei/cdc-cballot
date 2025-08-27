@@ -63,17 +63,23 @@ public class SecurityConfig {
                         .requestMatchers("/api/**").hasRole("ADMIN")
 
                 // Tout le reste nécessite d'être authentifié
-                // .anyRequest().authenticated()
+                .anyRequest().authenticated()
                 )
-
-                // Activer Basic Auth de façon moderne
-                // .httpBasic(Customizer.withDefaults());
 
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-        return http.build();
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling(exceptions -> exceptions
+                        .authenticationEntryPoint((request, response, authException) -> {
+                                response.setStatus(401);
+                                response.setContentType("application/json");
+                                response.getWriter().write(
+                                                "{\"error\":\"Unauthorized\",\"message\":\""
+                                                                + authException.getMessage()
+                                                                + "\"}");
+                        }));
+                return http.build();
     }
 
     @Bean
@@ -98,7 +104,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    AuthenticationProvider authAuthenticationProvider(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+    AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService,
+            PasswordEncoder passwordEncoder) {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder);
         return authProvider;
