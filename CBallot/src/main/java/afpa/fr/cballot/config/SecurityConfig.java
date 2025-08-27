@@ -52,10 +52,10 @@ public class SecurityConfig {
 
                         // Endpoints public : accessible par tous
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/voter/**").permitAll()
 
                         // Endpoints accessibles uniquement par l'ADMIN et TEACHER
                         .requestMatchers("/api/sessions/**").hasAnyRole("TEACHER", "ADMIN")
-                        .requestMatchers("/api/voter/**").hasAnyRole("TEACHER", "ADMIN", "VOTER")
                         .requestMatchers("/api/election/**").hasAnyRole("TEACHER", "ADMIN")
 
                         // Endpoints accessibles uniquement par l'ADMIN
