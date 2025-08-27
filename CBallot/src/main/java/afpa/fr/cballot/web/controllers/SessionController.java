@@ -19,10 +19,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PutMapping;
+
 
 @RestController
 @RequestMapping("/api/sessions")
@@ -43,7 +44,7 @@ public class SessionController {
      */
 
     /**
-     * presentAllStudents
+     * presentAllStudents ✅
      *
      * @return
      * 
@@ -57,7 +58,7 @@ public class SessionController {
     }
 
     /**
-     * CreateSessionWithStudents
+     * CreateSessionWithStudents ✅
      *
      * @param dto
      * @return
@@ -76,7 +77,7 @@ public class SessionController {
      */
 
     /**
-     * GetSession
+     * GetSession ✅
      *
      * @param id
      * @return
@@ -94,7 +95,7 @@ public class SessionController {
      */
 
     /**
-     * UpdateSession
+     * UpdateSession ✅
      *
      * @param id
      * @param dto
@@ -102,7 +103,7 @@ public class SessionController {
      * 
      *         Permet la mise à jour la session
      */
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<SessionDTO> updateSession(@PathVariable Integer id, @RequestBody SessionWithStudentsDTO dto) {
         try {
             return new ResponseEntity<>(sessionService.updateSession(id, dto), HttpStatus.OK);
@@ -120,7 +121,7 @@ public class SessionController {
      */
 
     /**
-     * PresentStudents
+     * PresentStudents ✅
      *
      * @param id
      * @return
@@ -134,7 +135,7 @@ public class SessionController {
     }
 
     /**
-     * AddStudents
+     * AddStudents ✅
      *
      * @param id
      * @param studentsIds
@@ -161,7 +162,7 @@ public class SessionController {
      */
 
     /**
-     * RemoveStudentsFromSession
+     * RemoveStudentsFromSession ✅
      *
      * @param id
      * @param studentsIds
@@ -169,7 +170,7 @@ public class SessionController {
      * 
      *         Supprime une liste de stagiaire à la session
      */
-    @PostMapping("/{id}/students")
+    @PatchMapping("/{id}/students")
     public ResponseEntity<SessionWithAllStudentsDTO> removeStudentFromSession(@PathVariable Integer id, @RequestBody List<UUID> studentsIds) {
         try {
             sessionService.removeStudentsFromSession(id, studentsIds);
@@ -186,7 +187,7 @@ public class SessionController {
      */
 
     /**
-     * RemoveSession
+     * RemoveSession ✅
      *
      * @param id
      * @param response
@@ -197,4 +198,55 @@ public class SessionController {
     public void removeSession(@PathVariable Integer id, HttpServletResponse response) {
         sessionService.removeSession(id, response);
     }
+
+    // ! Création de stagiaire
+    /*
+     * Proposer la creation / modification
+     * / suppression de stagiaire
+     */
+
+    /**
+     * GetOneStudent ✅
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping("/students/{id}")
+    public ResponseEntity<?> getOneStudent(@PathVariable UUID id) {
+        return new ResponseEntity<>(studentService.getOneStudent(id), HttpStatus.OK);
+    }
+
+    /**
+     * CreateStudent ✅
+     * @param student
+     * @return
+     */
+    @PostMapping("/students")
+    public ResponseEntity<?> createStudent(@RequestBody StudentDTO student) {
+        return new ResponseEntity<>(studentService.createStudent(student), HttpStatus.CREATED);
+    }
+
+    /**
+     * UpdateStudent ✅
+     *
+     * @param id
+     * @param student
+     * @return
+     */
+    @PatchMapping("/students/{id}")
+    public ResponseEntity<?> updateStudent(@PathVariable UUID id, @RequestBody StudentDTO student) {
+        return new ResponseEntity<>(studentService.updateStudent(id, student), HttpStatus.OK);
+    }
+
+    /**
+     * DeleteStudent ✅
+     *
+     * @param id
+     * @param response
+     */
+    @DeleteMapping("/students/{id}")
+    public void deleteStudent(@PathVariable UUID id, HttpServletResponse response) {
+        studentService.removeStudent(id, response);
+    }
+
 }
