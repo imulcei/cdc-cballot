@@ -1,0 +1,141 @@
+import type { Teacher } from "../types/Teacher";
+import type { Course } from "../types/Course";
+
+// Initialisation de l'URL pour les endpopints "FormationController"
+const COURSE_API_URL = "http://localhost/api/courses";
+const TEACHER_API_URL = COURSE_API_URL+"/teachers";
+
+/**
+ * FetchCourses
+ *
+ * @returns CoursesAndTeachers
+ */
+export async function fetchCourses(): Promise<Course[]> {
+    try {
+        const response = await fetch(COURSE_API_URL);
+        if (!response.ok) throw new Error("Erreur http");
+        return response.json();
+    } catch (error) {
+        console.error("Erreur fetchCoursesAndTeachers", error);
+        throw error;
+    }
+}
+
+/**
+ * FetchCourse
+ *
+ * @param id idCourse
+ * @returns Course
+ */
+export async function fetchCourse(id: number): Promise<Course> {
+    try {
+        const response = await fetch(`${COURSE_API_URL}/${id}`);
+        if (!response.ok) throw new Error("Erreur HTTP");
+        return response.json();
+    } catch (error) {
+        console.error("Erreur fetchCourse", error);
+        throw error;
+    }
+}
+
+/**
+ * CreateCourse
+ *
+ * @param course Course
+ * @returns 
+ */
+export async function createCourse(course:Omit<Course, "id">): Promise<Course> {
+    try {
+        const response = await fetch(COURSE_API_URL, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(course),
+        });
+        if (!response.ok) throw new Error("Erreur Http");
+        return response.json();
+    } catch (error) {
+        console.error("Erreur createCourse: ", error);
+        throw error;
+    }
+}
+
+/**
+ * UpdateCourse
+ *
+ * @param id idCourse
+ * @param course course
+ * @returns 
+ */
+export async function updateCourse(id: number, course: Omit<Course, "id">): Promise<Course> {
+    try {
+        const response = await fetch(`${COURSE_API_URL}/${id}`, {
+            method: "PATCH",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(course),
+        });
+        if (!response.ok) throw new Error("Erreur HTTP");
+        return response.json();
+    } catch (error) {
+        console.error("Erreur updateCourse: ", error);
+        throw error;
+    }
+}
+
+/**
+ * DeletCourse
+ *
+ * @param id idCourse
+ */
+export async function deleteCourse(id: number): Promise<void> {
+    try {
+        const response = await fetch(`${COURSE_API_URL}/${id}`, {
+            method: "DELETE",
+        });
+        if (!response.ok) throw new Error("Erreur HTTP");
+    } catch (error) {
+        console.error("Erreur deleteCourse: ", error);
+        throw error;
+    }
+}
+
+/**
+ * FetchTeachers
+ *
+ * @returns Teachers[]
+ */
+export async function fetchTeachers(): Promise<Teacher[]> {
+    try {
+        const response = await fetch(TEACHER_API_URL);
+        if (!response.ok) throw new Error("Erreur HTTP");
+        return response.json();
+    } catch (error) {
+        console.error("Erreur fetchTeachers: ", error);
+        throw error;
+    }
+}
+
+/**
+ * CreateTeacher
+ *
+ * @param teacher
+ * @returns Teacher
+ */
+export async function createTeacher(teacher: Omit<Teacher, "id">): Promise<Teacher> {
+    try {
+        const response = await fetch(TEACHER_API_URL, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(teacher),
+        });
+        if (!response.ok) throw new Error("Erreur HTTP");
+        return response.json();
+    } catch (error) {
+        console.error("Erreur createTeacher: ", error);
+        throw error;
+    }
+}
+
+// updateTeacher
+// DelteTeacher
+// AddTeacherToCourse
+//RemoveTeacherFromCourse
