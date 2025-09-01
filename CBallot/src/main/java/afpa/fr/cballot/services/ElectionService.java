@@ -1,6 +1,7 @@
 package afpa.fr.cballot.services;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
@@ -9,6 +10,7 @@ import afpa.fr.cballot.entities.Session;
 import afpa.fr.cballot.entities.Voter;
 import afpa.fr.cballot.repositories.ElectionRepository;
 import afpa.fr.cballot.repositories.SessionRepository;
+import afpa.fr.cballot.repositories.VoterRepository;
 import afpa.fr.cballot.services.mail.EmailService;
 import jakarta.persistence.EntityNotFoundException;
 
@@ -18,13 +20,15 @@ public class ElectionService {
     private EmailService emailService;
     private SessionRepository sessionRepository;
     private VoterService voterService;
+    private VoterRepository voterRepository;
 
     public ElectionService(ElectionRepository electionRepository, EmailService emailService,
-            SessionRepository sessionRepository, VoterService voterService) {
+            SessionRepository sessionRepository, VoterService voterService, VoterRepository voterRepository) {
         this.electionRepository = electionRepository;
         this.emailService = emailService;
         this.sessionRepository = sessionRepository;
         this.voterService = voterService;
+        this.voterRepository = voterRepository;
     }
 
     public Election save(Election election) {
@@ -41,6 +45,10 @@ public class ElectionService {
 
     public Election findById_Election(Integer id_election) {
         return electionRepository.findById(id_election).orElse(null);
+    }
+
+    public List<Voter> findAllById(List<UUID> voters) {
+        return voterRepository.findAllById(voters);
     }
 
     public boolean deleteById(Integer id) {

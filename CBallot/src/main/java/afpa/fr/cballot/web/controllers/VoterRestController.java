@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import afpa.fr.cballot.dtos.PairDto;
 import afpa.fr.cballot.dtos.VoterDto;
+import afpa.fr.cballot.entities.Election;
 import afpa.fr.cballot.entities.Pair;
 import afpa.fr.cballot.entities.Voter;
 import afpa.fr.cballot.mappers.PairDtoMapper;
@@ -23,6 +25,7 @@ import afpa.fr.cballot.mappers.VoterDtoMapper;
 import afpa.fr.cballot.mappers.VoterMapper;
 import afpa.fr.cballot.repositories.PairRepository;
 import afpa.fr.cballot.repositories.VoterRepository;
+import afpa.fr.cballot.services.ElectionService;
 import afpa.fr.cballot.services.PairService;
 import afpa.fr.cballot.services.VoterService;
 
@@ -46,6 +49,8 @@ public class VoterRestController {
     private VoterDtoMapper voterDtoMapper;
     @Autowired
     private VoterRepository voterRepository;
+    @Autowired
+    private ElectionService electionService;
 
     /**
      * Renvoyer la liste de tous les votants. ✅
@@ -70,6 +75,20 @@ public class VoterRestController {
         Voter voter = voterMapper.apply(voterDto);
         voter = voterService.save(voter);
         return voterDtoMapper.apply(voter);
+    }
+
+    /**
+     * Supprimer une liste de votants d'une élection
+     */
+    @PatchMapping(value = "/{id}")
+    public List<VoterDto> updateVoterList(@PathVariable Integer id, @RequestBody List<UUID> votersDtoList) {
+        Election election = electionService.findById_Election(id);
+        List<Voter> voters = electionService.findAllById(votersDtoList);
+        election.getVoters().removeAll(voters);
+        for (Voter voter : voters) {
+            voterService.remove(voter);
+        }
+        return getAllVoters();
     }
 
     /**
