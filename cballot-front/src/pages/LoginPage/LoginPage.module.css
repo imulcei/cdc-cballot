@@ -1,0 +1,23 @@
+.login_form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 250px;
+}
+
+.login_form label {
+    text-align: left;
+    text-transform: uppercase;
+}
+
+.login_form input {
+    height: 30px;
+    border-radius: 10px;
+    padding: 2px 8px;
+}
+
+.login_form button {
+    width: 200px;
+    margin: 0 auto;
+    background-color: rgb(95, 158, 160);
+}

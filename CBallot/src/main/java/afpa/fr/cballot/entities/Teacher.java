@@ -19,9 +19,7 @@ public class Teacher extends Person {
     private String password;
 
     @ManyToMany
-    @JoinTable(name = "teacher_course",
-                    joinColumns = @JoinColumn(name = "id_teacher"),
-                    inverseJoinColumns = @JoinColumn(name = "id_course"))
+    @JoinTable(name = "teacher_course", joinColumns = @JoinColumn(name = "id_teacher"), inverseJoinColumns = @JoinColumn(name = "id_course"))
     List<Course> courses = new ArrayList<>();
 
     public Teacher() {

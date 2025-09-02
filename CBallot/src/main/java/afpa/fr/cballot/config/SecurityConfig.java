@@ -1,10 +1,13 @@
 package afpa.fr.cballot.config;
 
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+// import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -17,6 +20,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import afpa.fr.cballot.entities.entityuserdetails.AdminUserDetails;
 import afpa.fr.cballot.entities.entityuserdetails.TeacherUserDetails;
@@ -44,6 +50,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationProvider authenticationProvider)
             throws Exception {
         http
+                // Active la config CORS
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 // Désactiver CSRF proprement
                 .csrf(AbstractHttpConfigurer::disable)
 
@@ -61,9 +69,8 @@ public class SecurityConfig {
                         // Endpoints accessibles uniquement par l'ADMIN
                         .requestMatchers("/api/**").hasRole("ADMIN")
 
-                // Tout le reste nécessite d'être authentifié
-                .anyRequest().authenticated()
-                )
+                        // Tout le reste nécessite d'être authentifié
+                        .anyRequest().authenticated())
 
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -71,14 +78,14 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(exceptions -> exceptions
                         .authenticationEntryPoint((request, response, authException) -> {
-                                response.setStatus(401);
-                                response.setContentType("application/json");
-                                response.getWriter().write(
-                                                "{\"error\":\"Unauthorized\",\"message\":\""
-                                                                + authException.getMessage()
-                                                                + "\"}");
+                            response.setStatus(401);
+                            response.setContentType("application/json");
+                            response.getWriter().write(
+                                    "{\"error\":\"Unauthorized\",\"message\":\""
+                                            + authException.getMessage()
+                                            + "\"}");
                         }));
-                return http.build();
+        return http.build();
     }
 
     @Bean
@@ -110,4 +117,19 @@ public class SecurityConfig {
         return authProvider;
     }
 
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+
+        configuration.setAllowedOrigins(List.of("http://localhost:5173"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+        // configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+        configuration.setAllowedHeaders(List.of("*"));
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+
+        source.registerCorsConfiguration("/**", configuration);
+
+        return source;
+    }
 }

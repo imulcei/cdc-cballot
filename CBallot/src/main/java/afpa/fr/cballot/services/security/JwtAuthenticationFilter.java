@@ -22,9 +22,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final AdminUserDetailsServiceImpl adminUserDetailsServiceImpl;
     private final TeacherUserDetailsServiceImpl teacherUserDetailsServiceImpl;
 
-    public JwtAuthenticationFilter(JwtService jwtService, 
-        AdminUserDetailsServiceImpl adminUserDetailsServiceImpl, 
-        TeacherUserDetailsServiceImpl teacherUserDetailsServiceImpl) {
+    public JwtAuthenticationFilter(JwtService jwtService,
+            AdminUserDetailsServiceImpl adminUserDetailsServiceImpl,
+            TeacherUserDetailsServiceImpl teacherUserDetailsServiceImpl) {
         this.jwtService = jwtService;
         this.adminUserDetailsServiceImpl = adminUserDetailsServiceImpl;
         this.teacherUserDetailsServiceImpl = teacherUserDetailsServiceImpl;
@@ -33,6 +33,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+
+        //
+        String path = request.getRequestURI();
+
+        // Ne pas appliquer le filtre JWT sur /api/auth/** (login, register) et
+        // api/voter (pour voter)
+        if (path.startsWith("/api/auth/") || path.startsWith("/api/voter/")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         final String authHeader = request.getHeader("Authorization");
 
@@ -44,34 +54,34 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String jwt;
         final String username;
 
-        jwt = authHeader.substring(7); // supprime "Bearer  "
+        jwt = authHeader.substring(7); // supprime "Bearer "
         username = jwtService.extractUsername(jwt);
 
         // Vérifie que l'utilisateur n'est pas déjà authentifié
-    if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-        UserDetails userDetails = null;
+        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            UserDetails userDetails = null;
 
-        // Tentative 1 : Admin
-        try {
-            userDetails = adminUserDetailsServiceImpl.loadUserByUsername(username);
-            if (jwtService.isTokenValid(jwt, userDetails)) {
-                setAuthentication(userDetails, request);
-                filterChain.doFilter(request, response);
-                return;
+            // Tentative 1 : Admin
+            try {
+                userDetails = adminUserDetailsServiceImpl.loadUserByUsername(username);
+                if (jwtService.isTokenValid(jwt, userDetails)) {
+                    setAuthentication(userDetails, request);
+                    filterChain.doFilter(request, response);
+                    return;
+                }
+            } catch (UsernameNotFoundException e) {
+                // Ignorer, passer à Teacher
             }
-        } catch (UsernameNotFoundException e) {
-            // Ignorer, passer à Teacher
-        }
 
-        // Tentative 2 : Teacher
-        try {
-            userDetails = teacherUserDetailsServiceImpl.loadUserByUsername(username);
-            if (jwtService.isTokenValid(jwt, userDetails)) {
-                setAuthentication(userDetails, request);
+            // Tentative 2 : Teacher
+            try {
+                userDetails = teacherUserDetailsServiceImpl.loadUserByUsername(username);
+                if (jwtService.isTokenValid(jwt, userDetails)) {
+                    setAuthentication(userDetails, request);
+                }
+            } catch (UsernameNotFoundException e) {
+                // Utilisateur inconnu
             }
-        } catch (UsernameNotFoundException e) {
-            // Utilisateur inconnu
-        }
         }
 
         filterChain.doFilter(request, response);
