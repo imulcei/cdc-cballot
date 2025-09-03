@@ -6,6 +6,6 @@ export interface Student {
     email: string,
     lastname: string,
     firstname: string,
-    pair: Pair,
-    session: Session
+    pair?: Pair,
+    session?: Session
 }

@@ -6,5 +6,5 @@ export interface Teacher {
     email: string,
     lastname: string,
     firstname: string,
-    courses: Course[]
+    courses?: Course[]
 }

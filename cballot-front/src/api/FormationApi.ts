@@ -1,5 +1,6 @@
 import type { Teacher } from "../types/Teacher";
 import type { Course } from "../types/Course";
+import type { CoursesAndTeachers } from "../types/CoursesAndTeachers";
 
 // Initialisation de l'URL pour les endpopints "FormationController"
 const COURSE_API_URL = "http://localhost:8000/api/courses";
@@ -10,7 +11,7 @@ const TEACHER_API_URL = COURSE_API_URL + "/teachers";
  *
  * @returns CoursesAndTeachers
  */
-export async function fetchCourses(): Promise<Course[]> {
+export async function fetchCourses(): Promise<CoursesAndTeachers> {
   try {
     const response = await fetch(COURSE_API_URL);
     if (!response.ok) throw new Error("Erreur http");

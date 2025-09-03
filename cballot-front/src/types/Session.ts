@@ -7,5 +7,5 @@ export interface Session {
     start_date: Date,
     end_date: Date,
     course: Course,
-    students: Student[]
+    students?: Student[]
 }
