@@ -76,6 +76,11 @@ public class SessionController {
      * et afficher la liste de ses stagiaires
      */
 
+    @GetMapping("/all")
+    public ResponseEntity<List<SessionDTO>> getAllSessions() {
+        return new ResponseEntity<>(sessionService.getSessions(), HttpStatus.OK);
+    }
+
     /**
      * GetSession ✅
      *

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -39,6 +40,13 @@ public class SessionService {
         this.courseRepository = courseRepository;
         this.mapper = mapper;
         this.studentMapper = studentMapper;
+    }
+
+    public List<SessionDTO> getSessions() {
+        return sessionRepository.findAll()
+                .stream()
+                .map(session -> new SessionDTO(session))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -238,4 +246,6 @@ public class SessionService {
         session.getStudents().removeAll(students);
         sessionRepository.save(session);
     }
+
+
 }
