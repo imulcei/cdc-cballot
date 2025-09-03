@@ -21,6 +21,22 @@ export async function fetchStudents(): Promise<Student[]> {
 }
 
 /**
+ * FetchSessions
+ *
+ * @returns Sessions[]
+ */
+export async function fetchSessions(): Promise<Session[]> {
+  try {
+    const response = await fetch(SESSION_API_URL + "/all");
+    if (!response.ok) throw new Error("Erreur HTTP");
+    return response.json();
+  } catch (error) {
+    console.error("Erreur fetchSessions: ", error);
+    throw error;
+  }
+}
+
+/**
  * CreateSession
  *
  * @param session session + students[]
