@@ -6,7 +6,7 @@ export interface Election {
     id: number,
     start_date: Date,
     end_date: Date,
-    pairs: Pair[],
-    voters: Voter[],
+    pairs?: Pair[],
+    voters?: Voter[],
     session: Session
 }

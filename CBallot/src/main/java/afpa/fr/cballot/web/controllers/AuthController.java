@@ -29,6 +29,7 @@ public class AuthController {
 
         LoginDTO loginDto = authService.createToken(userLogs);
 
+        // + renvoyer cookie + http only 
         return new ResponseEntity<>(loginDto, HttpStatus.CREATED);
     }
 

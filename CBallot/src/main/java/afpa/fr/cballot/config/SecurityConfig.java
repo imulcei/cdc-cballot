@@ -64,7 +64,8 @@ public class SecurityConfig {
 
                         // Endpoints accessibles uniquement par l'ADMIN et TEACHER
                         .requestMatchers("/api/sessions/**").hasAnyRole("TEACHER", "ADMIN")
-                        .requestMatchers("/api/election/**").hasAnyRole("TEACHER", "ADMIN")
+                        .requestMatchers("/api/election/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_TEACHER")
+                        // .requestMatchers("/api/election/**").hasAnyRole("TEACHER", "ADMIN")
 
                         // Endpoints accessibles uniquement par l'ADMIN
                         .requestMatchers("/api/**").hasRole("ADMIN")
@@ -123,7 +124,6 @@ public class SecurityConfig {
 
         configuration.setAllowedOrigins(List.of("http://localhost:5173"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
-        // configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         configuration.setAllowedHeaders(List.of("*"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

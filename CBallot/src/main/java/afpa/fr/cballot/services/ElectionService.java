@@ -1,8 +1,10 @@
 package afpa.fr.cballot.services;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import afpa.fr.cballot.entities.Election;
@@ -62,10 +64,15 @@ public class ElectionService {
         return true;
     }
 
-    public Election createElection(Election election) {
-        Election electionSaved = electionRepository.save(election);
-        emailService.sendVoteInvitationEmails(electionSaved);
-        return electionSaved;
+    public Election createElection(Election election) throws SQLException {
+        try {
+            Election electionSaved = electionRepository.save(election);
+            emailService.sendVoteInvitationEmails(electionSaved);
+
+            return electionSaved;
+        } catch (DataIntegrityViolationException e) {
+            throw new SQLException("La session a déjà une élection associée");
+        }
     }
 
     public void closeElection(Integer id_election) {

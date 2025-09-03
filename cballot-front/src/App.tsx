@@ -3,6 +3,9 @@ import { BrowserRouter, Routes, Route } from 'react-router'
 // import viteLogo from '/vite.svg'
 import './App.css'
 import LoginPage from "./pages/LoginPage/LoginPage";
+import MainElection from './pages/ElectionPage/MainElection';
+import CreateElectionPage from "./pages/ElectionPage/CreateElectionPage";
+import ManageElectionPage from "./pages/ElectionPage/ManageElectionPage";
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -25,6 +28,14 @@ function App() {
         <main>
           <Routes>
             <Route path="/login" element={<LoginPage />} />
+
+            {/* Routes Election */}
+            <Route path="/election" element={<MainElection />}>
+              {/* Sous-routes */}
+              <Route path="create-election" element={<CreateElectionPage />} />
+              <Route path="manage-election" element={<ManageElectionPage />} />
+            </Route>
+
           </Routes>
         </main >
       </BrowserRouter>

@@ -44,8 +44,6 @@ public class AuthService {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(email, password));
 
-        System.out.println("j'arrive jusqu'ici");
-
         Optional<Admin> admin = adminRepository.findByEmail(email);
         UserDetails userDetails = null;
 

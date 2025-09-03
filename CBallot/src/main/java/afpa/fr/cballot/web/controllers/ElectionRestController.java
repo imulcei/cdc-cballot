@@ -1,5 +1,6 @@
 package afpa.fr.cballot.web.controllers;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import afpa.fr.cballot.dtos.ElectionDto;
+import afpa.fr.cballot.dtos.ErrorDTO;
 import afpa.fr.cballot.dtos.PairDto;
 import afpa.fr.cballot.dtos.StudentDTO;
 import afpa.fr.cballot.entities.Election;
@@ -70,10 +72,19 @@ public class ElectionRestController {
      */
     @PostMapping(value = "/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public ElectionDto createElection(@RequestBody ElectionDto electionDto) {
+    public ResponseEntity<?> createElection(@RequestBody ElectionDto electionDto) {
         Election election = electionMapper.apply(electionDto);
-        election = electionService.createElection(election);
-        return electionDtoMapper.apply(election);
+
+        try {
+            election = electionService.createElection(election);
+
+            return new ResponseEntity<>(electionDtoMapper.apply(election), HttpStatus.CREATED);
+
+        } catch (SQLException e) {
+            // on renvoie un message d'erreur bien formaté
+            return new ResponseEntity<>(new ErrorDTO(e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     /**
