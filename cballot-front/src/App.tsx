@@ -1,11 +1,15 @@
-import { BrowserRouter, Routes, Route } from 'react-router'
+import { BrowserRouter, Routes, Route } from "react-router";
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
 import LoginPage from "./pages/LoginPage/LoginPage";
-import MainElection from './pages/ElectionPage/MainElection';
+import MainElection from "./pages/ElectionPage/MainElection";
 import CreateElectionPage from "./pages/ElectionPage/CreateElectionPage";
 import ManageElectionPage from "./pages/ElectionPage/ManageElectionPage";
+import MainFormation from "./pages/formation/MainFormation";
+import ListCoursesAndTeachers from "./pages/formation/ListCoursesAndTeachers";
+import GetCourse from "./pages/formation/GetCourse";
+import GetTeachers from "./pages/formation/GetTeachers";
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -13,7 +17,6 @@ function App() {
   return (
     <>
       <BrowserRouter>
-
         <header>
           {/* <nav>
             <Link to="/counter">Compteur</Link>
@@ -36,11 +39,16 @@ function App() {
               <Route path="manage-election" element={<ManageElectionPage />} />
             </Route>
 
+            <Route path="courses" element={<MainFormation />}>
+              <Route path="" element={<ListCoursesAndTeachers />} />
+              <Route path="manage" element={<GetCourse />} />
+              <Route path="teachers" element={<GetTeachers />} />
+            </Route>
           </Routes>
-        </main >
+        </main>
       </BrowserRouter>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

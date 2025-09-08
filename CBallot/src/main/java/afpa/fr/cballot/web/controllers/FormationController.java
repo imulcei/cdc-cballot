@@ -136,8 +136,13 @@ public class FormationController {
      *         retourne tout les formateurs
      */
     @GetMapping("/teachers")
-    public ResponseEntity<?> getAllTeachers() {
+    public ResponseEntity<List<TeacherDTO>> getAllTeachers() {
         return new ResponseEntity<>(teacherService.getAllTeachers(), HttpStatus.OK);
+    }
+
+    @GetMapping("/teachers/{id}")
+    public ResponseEntity<?> getOneTeacher(@PathVariable UUID id) {
+        return new ResponseEntity<>(teacherService.getOneTeacher(id), HttpStatus.OK);
     }
 
     /**
@@ -170,8 +175,12 @@ public class FormationController {
      * @param response
      */
     @DeleteMapping("/teachers/{id}")
-    public void deleteTeacher(@PathVariable UUID id, HttpServletResponse response) {
-        teacherService.removeTeacher(id, response);
+    public ResponseEntity<?> deleteTeacher(@PathVariable UUID id) {
+        if (teacherService.removeTeacher(id)) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     // ! Formulaire d'affiliation de formateur (endpoint 1 (modal))
@@ -206,7 +215,7 @@ public class FormationController {
      * @param teacherIds
      * @return
      * 
-     * Supprime une liste de formateurs d'une formation
+     *         Supprime une liste de formateurs d'une formation
      */
     @PatchMapping("/{courseId}/teachers")
     public ResponseEntity<CourseWithTeachersDTO> removeTeachersFromCourse(@PathVariable Integer courseId,

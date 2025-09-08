@@ -4,7 +4,7 @@ import java.util.List;
 
 public record CourseWithTeachersDTO(
     Integer id,
-    String name,
+    String libelle,
     List<TeacherDTO> teachers
 ) {
 }

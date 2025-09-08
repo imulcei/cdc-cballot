@@ -5,15 +5,26 @@ import type { CoursesAndTeachers } from "../types/CoursesAndTeachers";
 // Initialisation de l'URL pour les endpopints "FormationController"
 const COURSE_API_URL = "http://localhost:8000/api/courses";
 const TEACHER_API_URL = COURSE_API_URL + "/teachers";
+const jwt = localStorage.getItem("jwt");
+const token = `Bearer ${jwt}`;
+
 
 /**
  * FetchCourses
  *
  * @returns CoursesAndTeachers
+ * 
+ * Renvoie une liste de formation et une liste de formateur
  */
 export async function fetchCourses(): Promise<CoursesAndTeachers> {
   try {
-    const response = await fetch(COURSE_API_URL);
+    const response = await fetch(COURSE_API_URL, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+        "Authorization": token,
+      }
+    });
     if (!response.ok) throw new Error("Erreur http");
     return response.json();
   } catch (error) {
@@ -27,10 +38,18 @@ export async function fetchCourses(): Promise<CoursesAndTeachers> {
  *
  * @param id idCourse
  * @returns Course
+ * 
+ * Retourne 1 formation (bien évidemment avec ses formateurs)
  */
 export async function fetchCourse(id: number): Promise<Course> {
   try {
-    const response = await fetch(`${COURSE_API_URL}/${id}`);
+    const response = await fetch(`${COURSE_API_URL}/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+        "Authorization": token,
+      }
+    });
     if (!response.ok) throw new Error("Erreur HTTP");
     return response.json();
   } catch (error) {
@@ -51,7 +70,10 @@ export async function createCourse(
   try {
     const response = await fetch(COURSE_API_URL, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json",
+        "Authorization": token
+      },
       body: JSON.stringify(course),
     });
     if (!response.ok) throw new Error("Erreur Http");
@@ -111,11 +133,34 @@ export async function deleteCourse(id: number): Promise<void> {
  */
 export async function fetchTeachers(): Promise<Teacher[]> {
   try {
-    const response = await fetch(TEACHER_API_URL);
+    const response = await fetch(TEACHER_API_URL, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": token
+      }
+    });
     if (!response.ok) throw new Error("Erreur HTTP");
     return response.json();
   } catch (error) {
     console.error("Erreur fetchTeachers: ", error);
+    throw error;
+  }
+}
+
+export async function fetchTeacher(id: string): Promise<Teacher> {
+  try {
+    const response = await fetch(`${TEACHER_API_URL}/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": token
+      }
+    });
+    if (!response.ok) throw new Error("Erreur HTTP");
+    return response.json();
+  } catch (error) {
+    console.error("Erreur fetchTeacher: ", error);
     throw error;
   }
 }
@@ -132,7 +177,9 @@ export async function createTeacher(
   try {
     const response = await fetch(TEACHER_API_URL, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json",
+        "Authorization": token
+       },
       body: JSON.stringify(teacher),
     });
     if (!response.ok) throw new Error("Erreur HTTP");
@@ -157,7 +204,9 @@ export async function updateTeacher(
   try {
     const response = await fetch(`${TEACHER_API_URL}/${id}`, {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json",
+        "Authorization": token
+       },
       body: JSON.stringify(teacher),
     });
     if (!response.ok) throw new Error("Erreur HTTP");
@@ -177,6 +226,10 @@ export async function deleteTeacher(id: string): Promise<void> {
   try {
     const response = await fetch(`${TEACHER_API_URL}/${id}`, {
       method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": token
+      }
     });
     if (!response.ok) throw new Error("Erreur HTTP");
   } catch (error) {
@@ -199,7 +252,9 @@ export async function addTeacherToCourse(
   try {
     const response = await fetch(`${COURSE_API_URL}/${id}/teachers`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json",
+        "Authorization": token
+       },
       body: JSON.stringify(teacherIds),
     });
     if (!response.ok) {
@@ -229,7 +284,9 @@ export async function removeTeachersFromCourse(
   try {
     const response = await fetch(`${COURSE_API_URL}/${id}/teachers`, {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json",
+        "Authorization": token
+       },
       body: JSON.stringify(teacherIds),
     });
     if (!response.ok) throw new Error("Erreur HTTP");

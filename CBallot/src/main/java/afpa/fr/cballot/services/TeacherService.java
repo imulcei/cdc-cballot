@@ -111,12 +111,12 @@ public class TeacherService {
      * @param id
      * @param response
      */
-    public void removeTeacher(UUID id, HttpServletResponse response) {
+    public boolean removeTeacher(UUID id) {
         if (teacherRepository.existsById(id)) {
             teacherRepository.deleteById(id);
-            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+            return true;
         } else {
-            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            return false;
         }
     }
 }
