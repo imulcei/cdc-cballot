@@ -24,11 +24,11 @@ const LoginPage = () => {
             let roleUser = localStorage.getItem("role");
 
             setError("");
-            if (roleUser = "ROLE_ADMIN") {
+            if (roleUser === "ROLE_ADMIN") {
                 navigate("/courses"); // redirige vers formations
             }
 
-            if (roleUser = "ROLE_TEACHER") {
+            if (roleUser === "ROLE_TEACHER") {
                 navigate("/sessions"); // redirige vers session
             }
         } catch (error) {

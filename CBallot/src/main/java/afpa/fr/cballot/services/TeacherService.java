@@ -25,32 +25,35 @@ public class TeacherService {
 
     private final TeacherMapper mapper;
 
-    public TeacherService(TeacherRepository teacherRepository, CourseRepository courseRepository, TeacherMapper mapper, PasswordEncoder passwordEncoder) {
+    public TeacherService(TeacherRepository teacherRepository, CourseRepository courseRepository, TeacherMapper mapper,
+            PasswordEncoder passwordEncoder) {
         this.teacherRepository = teacherRepository;
-        this.courseRepository =  courseRepository;
+        this.courseRepository = courseRepository;
         this.mapper = mapper;
         this.passwordEncoder = passwordEncoder;
     }
 
     /**
      * GetAllTeachers
+     * 
      * @return
      * 
-     * Retourne la liste des formateurs
+     *         Retourne la liste des formateurs
      */
     public List<TeacherDTO> getAllTeachers() {
         return teacherRepository.findAll()
-                                .stream()
-                                .map(teacher -> new TeacherDTO(teacher))
-                                .collect(Collectors.toList());
+                .stream()
+                .map(teacher -> new TeacherDTO(teacher))
+                .collect(Collectors.toList());
     }
 
     /**
      * GetOneTeacher
+     * 
      * @param id
      * @return
      * 
-     * Retourne un formateur
+     *         Retourne un formateur
      */
     public TeacherDTO getOneTeacher(UUID id) {
         return mapper.converteToDTO(teacherRepository.findById(id).orElse(null));
@@ -58,17 +61,18 @@ public class TeacherService {
 
     public List<TeacherDTO> getTeachersForOneCourse(Integer id) {
         return courseRepository.findAllTeacherById(id)
-                                .stream()
-                                .map(teacher -> new TeacherDTO(teacher))
-                                .collect(Collectors.toList());
+                .stream()
+                .map(teacher -> new TeacherDTO(teacher))
+                .collect(Collectors.toList());
     }
 
     /**
      * CreateTeacher
+     * 
      * @param dto
      * @return
      * 
-     * Création d'un formateur
+     *         Création d'un formateur
      */
     public TeacherDTO createTeacher(TeacherDTO dto) {
         Teacher teacher = mapper.converteToEntity(dto);
@@ -81,12 +85,13 @@ public class TeacherService {
 
     /**
      * UpdateTeacher
+     * 
      * @param id
      * @param dto
      * @return
      * 
-     * On véfirie si l'ID correspond à un formateur
-     * et on applique les changements dans l'enregistrement
+     *         On véfirie si l'ID correspond à un formateur
+     *         et on applique les changements dans l'enregistrement
      */
     public TeacherDTO updateTeacher(UUID id, TeacherDTO dto) {
         Optional<Teacher> original = teacherRepository.findById(id);
@@ -99,8 +104,8 @@ public class TeacherService {
         }
 
         Teacher teacher = original.get();
-        teacher.setLastName(dto.getLastName());
-        teacher.setFirstName(dto.getFirstName());
+        teacher.setLastname(dto.getLastname());
+        teacher.setFirstname(dto.getFirstname());
         teacher.setPassword(dto.getPassword());
 
         return mapper.converteToDTO(teacherRepository.save(teacher));
@@ -108,6 +113,7 @@ public class TeacherService {
 
     /**
      * RemoveTeacher
+     * 
      * @param id
      * @param response
      */

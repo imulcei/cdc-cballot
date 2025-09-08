@@ -28,23 +28,25 @@ public class AdminService {
 
     /**
      * GetAllAdmins (méthode à ne pas forcément à utiliser)
+     * 
      * @return
      *
-     * Renvoie la liste d'Admin
+     *         Renvoie la liste d'Admin
      */
     public List<AdminDTO> getAllAdmins() {
         return adminRepository.findAll()
-                                .stream()
-                                .map(admin -> new AdminDTO(admin))
-                                .collect(Collectors.toList());
+                .stream()
+                .map(admin -> new AdminDTO(admin))
+                .collect(Collectors.toList());
     }
 
     /**
      * GetOneAdmin
+     * 
      * @param id
      * @return
      * 
-     * Retourne un admin selon ID
+     *         Retourne un admin selon ID
      */
     public AdminDTO getOneAdmin(UUID id) {
         return adminMapper.converteToDTO(adminRepository.findById(id).orElse(null));
@@ -52,10 +54,11 @@ public class AdminService {
 
     /**
      * CreateAdmin
+     * 
      * @param dto
      * @return
      * 
-     * Enregistre un admin selon les params entrés
+     *         Enregistre un admin selon les params entrés
      */
     public AdminDTO createAdmin(AdminDTO dto) {
         return adminMapper.converteToDTO(adminRepository.save(adminMapper.converteToEntity(dto)));
@@ -63,11 +66,12 @@ public class AdminService {
 
     /**
      * UpdateAdmin
+     * 
      * @param id
      * @param dto
      * @return
      * 
-     * Permet la modification du "password" de l'admin
+     *         Permet la modification du "password" de l'admin
      */
     public AdminDTO updateAdmin(UUID id, AdminDTO dto) {
         Optional<Admin> originalAdmin = adminRepository.findById(id);
@@ -82,14 +86,15 @@ public class AdminService {
 
         Admin admin = originalAdmin.get();
         admin.setPassword(dto.getPassword());
-        admin.setLastName(dto.getLastName());
-        admin.setFirstName(dto.getFirstName());
+        admin.setLastname(dto.getLastname());
+        admin.setFirstname(dto.getFirstname());
 
         return adminMapper.converteToDTO(adminRepository.save(admin));
     }
 
     /**
      * RemoveAdmin
+     * 
      * @param id
      * @param response
      */

@@ -63,8 +63,9 @@ public class SecurityConfig {
                         .requestMatchers("/api/voter/**").permitAll()
 
                         // Endpoints accessibles uniquement par l'ADMIN et TEACHER
-                        .requestMatchers("/api/sessions/**").hasAnyRole("TEACHER", "ADMIN")
+                        .requestMatchers("/api/sessions/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_TEACHER")
                         .requestMatchers("/api/election/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_TEACHER")
+                        // .requestMatchers("/api/sessions/**").hasAnyRole("TEACHER", "ADMIN")
                         // .requestMatchers("/api/election/**").hasAnyRole("TEACHER", "ADMIN")
 
                         // Endpoints accessibles uniquement par l'ADMIN

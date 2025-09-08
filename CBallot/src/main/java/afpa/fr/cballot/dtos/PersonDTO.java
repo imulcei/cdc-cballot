@@ -11,9 +11,9 @@ public class PersonDTO {
     @JsonProperty("email")
     private String email;
     @JsonProperty("lastname")
-    private String lastName;
+    private String lastname;
     @JsonProperty("firstname")
-    private String firstName;
+    private String firstname;
 
     public PersonDTO() {
     }
@@ -21,8 +21,8 @@ public class PersonDTO {
     public PersonDTO(Person person) {
         this.id = person.getId();
         this.email = person.getEmail();
-        this.lastName = person.getLastName();
-        this.firstName = person.getFirstName();
+        this.lastname = person.getLastname();
+        this.firstname = person.getFirstname();
     }
 
     public UUID getId() {
@@ -41,20 +41,20 @@ public class PersonDTO {
         this.email = email;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getLastname() {
+        return lastname;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setLastname(String lastName) {
+        this.lastname = lastName;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFirstname(String firstName) {
+        this.firstname = firstName;
     }
 
 }

@@ -1,4 +1,4 @@
-INSERT INTO person (id, email, lastName, firstName)
+INSERT INTO person (id, email, lastname, firstname)
 VALUES (gen_random_uuid(), 'admin@mail.com', 'Vandame', 'JC')
 RETURNING id as id_person;
 

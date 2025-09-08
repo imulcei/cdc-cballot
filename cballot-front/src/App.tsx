@@ -32,8 +32,8 @@ function App() {
             {/* Routes Election */}
             <Route path="/election" element={<MainElection />}>
               {/* Sous-routes */}
-              <Route path="create-election" element={<CreateElectionPage />} />
-              <Route path="manage-election" element={<ManageElectionPage />} />
+              <Route path="create" element={<CreateElectionPage />} />
+              <Route path="manage" element={<ManageElectionPage />} />
             </Route>
 
           </Routes>
