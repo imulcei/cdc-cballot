@@ -57,7 +57,7 @@ public class EmailServiceImpl implements EmailService {
         Pair winner = election.getPairs().stream().max(Comparator.comparing(Pair::getCounter))
                 .orElseThrow(() -> new RuntimeException("Pas de gagnants."));
         // Récupérer les noms des étudiants qui composent le binôme
-        String winnerNames = winner.getStudents().stream().map(s -> s.getFirstName() + " " + s.getLastName())
+        String winnerNames = winner.getStudents().stream().map(s -> s.getFirstname() + " " + s.getLastname())
                 .collect(Collectors.joining(" & "));
 
         String result = "Le binôme gagnant est : " + winnerNames + " avec " + winner.getCounter() + " voix.";

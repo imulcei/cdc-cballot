@@ -30,11 +30,25 @@ const LoginPage = () => {
         navigate("/courses"); // redirige vers formations
       }
 
+<<<<<<< HEAD
       if (roleUser === "ROLE_TEACHER") {
         navigate("/sessions"); // redirige vers session
       }
     } catch (error) {
       setError("Une erreur s'est produite lors de la connexion.");
+=======
+            setError("");
+            if (roleUser === "ROLE_ADMIN") {
+                navigate("/courses"); // redirige vers formations
+            }
+
+            if (roleUser === "ROLE_TEACHER") {
+                navigate("/sessions"); // redirige vers session
+            }
+        } catch (error) {
+            setError("Une erreur s'est produite lors de la connexion.");
+        }
+>>>>>>> 4e4ae28e65562746108a2ef91cbb247f5fb2d7b7
     }
   };
 

@@ -21,14 +21,21 @@ export async function fetchStudents(): Promise<Student[]> {
 }
 
 /**
- * FetchSessions
+ * FetchSessions : retourne toutes les sessions
  *
  * @returns Sessions[]
  */
 export async function fetchSessions(): Promise<Session[]> {
   try {
-    const response = await fetch(SESSION_API_URL + "/all");
-    if (!response.ok) throw new Error("Erreur HTTP");
+    const token = localStorage.getItem("jwt");
+    const response = await fetch(`${SESSION_API_URL}/all`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      }
+    });
+    if (!response.ok) throw new Error("Erreur HTTP: Erreur lors du chargement des sessions.");
     return response.json();
   } catch (error) {
     console.error("Erreur fetchSessions: ", error);
@@ -58,18 +65,24 @@ export async function createSession(session: Session): Promise<Session> {
 }
 
 /**
- * FetchSession
+ * FetchSession : retourne une session
  *
  * @param id idSession
  * @returns session
  */
 export async function fetchSession(id: number): Promise<Session> {
   try {
-    const response = await fetch(`${SESSION_API_URL}/${id}`);
+    const response = await fetch(`${SESSION_API_URL}/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem("jwt")
+      }
+    });
     if (!response.ok) throw new Error("Erreur HTTP");
     return response.json();
   } catch (error) {
-    console.error("Erreur FetchCourse: ", error);
+    console.error("Erreur fetchSession: ", error);
     throw error;
   }
 }
@@ -122,9 +135,15 @@ export async function removeSession(id: number): Promise<void> {
  *
  * @returns students[]
  */
-export async function fetchStudentsFromSession(id: number): Promise<Student[]> {
+export async function fetchStudentsFromSession(id: number): Promise<Session> {
   try {
-    const response = await fetch(`${SESSION_API_URL}/${id}/students`);
+    const response = await fetch(`${SESSION_API_URL}/${id}/students`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem("jwt")
+      }
+    });
     if (!response.ok) throw new Error("Erreur HTTP");
     return response.json();
   } catch (error) {

@@ -24,10 +24,10 @@ public class Person {
     private String email;
 
     @Column(name = "lastname", nullable = false)
-    private String lastName;
+    private String lastname;
 
     @Column(name = "firstname", nullable = false)
-    private String firstName;
+    private String firstname;
 
     public Person() {
     }
@@ -35,8 +35,8 @@ public class Person {
     public Person(PersonDTO dto) {
         this.id = dto.getId();
         this.email = dto.getEmail();
-        this.lastName = dto.getLastName();
-        this.firstName = dto.getFirstName();
+        this.lastname = dto.getLastname();
+        this.firstname = dto.getFirstname();
     }
 
     public UUID getId() {
@@ -55,19 +55,19 @@ public class Person {
         this.email = email;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getLastname() {
+        return lastname;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setLastname(String lastName) {
+        this.lastname = lastName;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFirstname(String firstName) {
+        this.firstname = firstName;
     }
 }

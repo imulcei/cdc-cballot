@@ -117,8 +117,8 @@ public class StudentService {
         }
 
         Student student = originalStudent.get();
-        student.setLastName(dto.getLastName());
-        student.setFirstName(dto.getFirstName());
+        student.setLastname(dto.getLastname());
+        student.setFirstname(dto.getFirstname());
 
         return mapper.converteToDTO(studentRepository.save(student));
     }
